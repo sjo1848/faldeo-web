@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
 
 const approach = [
   ['01', 'Entender el terreno', 'Miramos cómo ocurre el trabajo real: personas, sistemas, datos, esperas y dependencias.'],
@@ -259,7 +260,17 @@ const evidence = [
         </div>
         <div class="contact-copy">
           <p>La conversación empieza por el workflow, la fricción y el resultado que tendría sentido mejorar. No por una pila tecnológica.</p>
-          <p class="contact-pending">Canal de contacto real a definir antes de Publication Readiness.</p>
+          {siteConfig.contactUrl ? (
+            <a
+              class="button button-small"
+              href={siteConfig.contactUrl}
+              rel={siteConfig.contactUrl.startsWith('https:') ? 'noopener noreferrer' : undefined}
+            >
+              {siteConfig.contactLabel}
+            </a>
+          ) : (
+            <p class="contact-pending">El canal de contacto se habilitará únicamente al aprobar la publicación.</p>
+          )}
         </div>
       </div>
     </section>
@@ -269,7 +280,7 @@ const evidence = [
     <div class="shell footer-inner">
       <img src="/brand/faldeo-lockup-horizontal-dark.svg" alt="FALDEO" width="170" height="62" />
       <p>Soluciones tecnológicas para operaciones reales.</p>
-      <span>BUILD privado · publicación pendiente</span>
+      {!siteConfig.isPublicRelease && <span>CANDIDATA PRIVADA · PUBLICACIÓN PENDIENTE</span>}
     </div>
   </footer>
 </BaseLayout>

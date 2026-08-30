@@ -1,0 +1,37 @@
+name: web-release-readiness
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install
+        run: npm install
+
+      - name: Private build
+        run: |
+          npm run build
+          node scripts/qa-static.mjs
+          node scripts/release-readiness.mjs
+
+      - name: Public release simulation
+        env:
+          PUBLIC_SITE_PUBLIC: 'true'
+          PUBLIC_SITE_URL: 'https://release-test.invalid/'
+          PUBLIC_CONTACT_URL: 'mailto:test@release-test.invalid'
+          PUBLIC_CONTACT_LABEL: 'Abrir canal de contacto'
+        run: |
+          rm -rf dist
+          npm run build
+          node scripts/release-readiness.mjs

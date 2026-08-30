@@ -1,0 +1,88 @@
+name: web-qa
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install site dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      - name: Static release guardrails
+        run: node scripts/qa-static.mjs
+
+      - name: Start private local server
+        run: |
+          python3 -m http.server 4321 --bind 127.0.0.1 --directory dist >/tmp/faldeo-web.log 2>&1 &
+          echo $! >/tmp/faldeo-web.pid
+          for i in {1..30}; do
+            if curl --silent --fail http://127.0.0.1:4321/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/faldeo-web.log
+          exit 1
+
+      - name: Lighthouse mobile
+        run: |
+          mkdir -p qa
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4321/ \
+            --quiet \
+            --chrome-flags="--headless --no-sandbox --disable-gpu" \
+            --only-categories=performance,accessibility,best-practices \
+            --output=json \
+            --output-path=qa/lighthouse-mobile.json
+
+      - name: Lighthouse desktop
+        run: |
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4321/ \
+            --quiet \
+            --preset=desktop \
+            --chrome-flags="--headless --no-sandbox --disable-gpu" \
+            --only-categories=performance,accessibility,best-practices \
+            --output=json \
+            --output-path=qa/lighthouse-desktop.json
+
+      - name: Enforce Lighthouse thresholds
+        run: node scripts/check-lighthouse.mjs
+
+      - name: Capture rendered desktop and mobile
+        if: always()
+        run: |
+          mkdir -p qa
+          google-chrome --headless --no-sandbox --disable-gpu --hide-scrollbars \
+            --force-device-scale-factor=1 --window-size=1440,8200 \
+            --screenshot=qa/render-desktop.png http://127.0.0.1:4321/ || true
+          google-chrome --headless --no-sandbox --disable-gpu --hide-scrollbars \
+            --force-device-scale-factor=1 --window-size=390,8200 \
+            --screenshot=qa/render-mobile.png http://127.0.0.1:4321/ || true
+
+      - name: Upload QA evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: faldeo-web-qa
+          path: qa/
+          if-no-files-found: warn
+          retention-days: 7
+          compression-level: 0

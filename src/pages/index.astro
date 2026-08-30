@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const approach = [
+  ['01', 'Entender el terreno', 'Miramos cómo ocurre el trabajo real: personas, sistemas, datos, esperas y dependencias.'],
+  ['02', 'Detectar fricción', 'Buscamos cruces donde se pierde tiempo, información, trazabilidad o capacidad.'],
+  ['03', 'Elegir lo correcto', 'Comparamos alternativas y seleccionamos la solución mínima que resuelve el problema.'],
+  ['04', 'Construir y activar', 'Implementamos un recorrido acotado, observable y controlable antes de expandir.'],
+  ['05', 'Escalar con control', 'Reutilizamos lo que demostró valor y ampliamos sólo cuando la evidencia lo justifica.']
+];
+
+const evidence = [
+  {
+    label: 'OPERACIÓN HOTELERA',
+    title: 'Reservas y disponibilidad dentro de un sistema operativo real',
+    problem: 'Recepción, disponibilidad y reservas necesitan compartir una misma fuente operativa.',
+    proof: 'Producto hotelero en staging con workflows de recepción, habitaciones y reservas.',
+    status: 'PRODUCT EVIDENCE'
+  },
+  {
+    label: 'AGENTES + SISTEMAS',
+    title: 'Agentes conectados a herramientas reales bajo límites explícitos',
+    problem: 'Un agente útil necesita operar sobre datos y herramientas sin recibir acceso irrestricto.',
+    proof: 'Flujo verificado en staging: agente → Service Binding → sistema operativo → disponibilidad y cotización.',
+    status: 'TECHNICAL PROOF'
+  },
+  {
+    label: 'ARQUITECTURA OPERATIVA',
+    title: 'Aislamiento y trazabilidad para workflows multi-tenant',
+    problem: 'Compartir infraestructura no debe mezclar contexto, permisos ni datos entre organizaciones.',
+    proof: 'Routing confiable por tenant, políticas de herramientas y auditoría como capacidades internas.',
+    status: 'CAPABILITY EVIDENCE'
+  }
+];
+---
+<BaseLayout>
+  <header class="site-header" aria-label="Cabecera principal">
+    <div class="shell header-inner">
+      <a class="brand" href="#inicio" aria-label="FALDEO, inicio">
+        <img src="/brand/faldeo-lockup-horizontal-dark.svg" alt="FALDEO — Soluciones tecnológicas para operaciones reales" />
+      </a>
+
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        <a href="#friccion">Qué resolvemos</a>
+        <a href="#enfoque">Cómo trabajamos</a>
+        <a href="#agentes">Agentes</a>
+        <a href="#evidencia">Evidencia</a>
+      </nav>
+
+      <a class="button button-small desktop-cta" href="#contacto">Hablemos de tu operación</a>
+
+      <details class="mobile-nav">
+        <summary aria-label="Abrir navegación">Menú</summary>
+        <nav aria-label="Navegación móvil">
+          <a href="#friccion">Qué resolvemos</a>
+          <a href="#enfoque">Cómo trabajamos</a>
+          <a href="#agentes">Agentes</a>
+          <a href="#evidencia">Evidencia</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero dark-section" id="inicio">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">SOLUCIONES TECNOLÓGICAS PARA OPERACIONES REALES</p>
+          <h1>Leemos tu operación.<br /><span>Elegimos lo que realmente resuelve.</span></h1>
+          <p class="hero-lead">Software, automatización y agentes de IA alrededor de procesos concretos. Primero entendemos el terreno; después elegimos la herramienta.</p>
+          <div class="hero-actions">
+            <a class="button" href="#enfoque">Ver cómo trabajamos</a>
+            <a class="text-link" href="#criterio">Cómo elegimos tecnología <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="terrain-map" role="img" aria-label="Mapa operativo: entradas, fricción, decisión y capacidad conectadas por un recorrido controlado">
+          <svg viewBox="0 0 720 570" aria-hidden="true">
+            <g class="contours">
+              <path d="M44 94 C132 22 245 18 318 72 S472 151 655 86" />
+              <path d="M22 142 C117 58 244 62 318 111 S495 198 690 121" />
+              <path d="M14 204 C125 126 233 126 319 166 S504 260 703 189" />
+              <path d="M34 286 C132 222 232 216 329 245 S503 339 687 283" />
+              <path d="M68 373 C168 310 254 304 346 332 S514 412 652 373" />
+              <path d="M112 459 C194 408 282 391 367 417 S512 478 611 459" />
+            </g>
+            <path class="route" d="M82 448 L171 373 L218 386 L286 292 L343 307 L418 202 L502 236 L626 125" />
+            <circle class="route-start" cx="82" cy="448" r="10" />
+            <rect class="route-end" x="618" y="117" width="17" height="17" />
+            <circle class="friction-point" cx="218" cy="386" r="10" />
+            <circle class="decision-point" cx="343" cy="307" r="10" />
+            <circle class="signal-point" cx="502" cy="236" r="10" />
+          </svg>
+          <div class="map-label map-label-a"><span>01</span><strong>TERRENO</strong><small>Personas · sistemas · datos</small></div>
+          <div class="map-label map-label-b"><span>02</span><strong>FRICCIÓN</strong><small>Espera · retrabajo · pérdida</small></div>
+          <div class="map-label map-label-c"><span>03</span><strong>CRITERIO</strong><small>Comparar · descartar · elegir</small></div>
+          <div class="map-label map-label-d"><span>04</span><strong>CAPACIDAD</strong><small>Resultado operativo observable</small></div>
+        </div>
+      </div>
+      <div class="shell signal-strip" aria-label="Recorrido FALDEO">
+        <span>TERRENO</span><i aria-hidden="true"></i><span>FRICCIÓN</span><i aria-hidden="true"></i><span>CRITERIO</span><i aria-hidden="true"></i><span>RECORRIDO</span><i aria-hidden="true"></i><span>CAPACIDAD</span>
+      </div>
+    </section>
+
+    <section class="light-section friction" id="friccion">
+      <div class="shell split-heading">
+        <div>
+          <p class="eyebrow eyebrow-dark">DÓNDE MIRAMOS</p>
+          <h2>La operación no suele romperse por falta de software.</h2>
+        </div>
+        <div class="section-copy">
+          <p>Se rompe en los cruces: información que vive en lugares distintos, tareas que dependen de memoria, sistemas que no conversan y decisiones que llegan tarde.</p>
+          <p class="strong-copy">FALDEO trabaja sobre esos cruces.</p>
+        </div>
+      </div>
+
+      <div class="shell friction-line" aria-label="Ejemplos de fricción operativa">
+        <div><span>01</span><strong>Planilla</strong><small>dato aislado</small></div>
+        <div class="connector" aria-hidden="true"></div>
+        <div><span>02</span><strong>Mensaje</strong><small>fuera del sistema</small></div>
+        <div class="connector broken" aria-hidden="true"></div>
+        <div class="fault"><span>!</span><strong>Fricción</strong><small>espera · error · retrabajo</small></div>
+        <div class="connector" aria-hidden="true"></div>
+        <div><span>03</span><strong>Persona</strong><small>dependencia manual</small></div>
+        <div class="connector" aria-hidden="true"></div>
+        <div><span>04</span><strong>Decisión</strong><small>llega tarde</small></div>
+      </div>
+    </section>
+
+    <section class="dark-section approach" id="enfoque">
+      <div class="shell">
+        <div class="section-kicker">
+          <p class="eyebrow">NUESTRO ENFOQUE</p>
+          <p>Antes de diseñar una solución, buscamos entender el recorrido real.</p>
+        </div>
+
+        <div class="approach-list">
+          {approach.map(([number, title, body]) => (
+            <article class="approach-step">
+              <span class="step-number">{number}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+              <span class="step-mark" aria-hidden="true">↗</span>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="criterion light-section" id="criterio">
+      <div class="shell criterion-grid">
+        <div class="criterion-title">
+          <p class="eyebrow eyebrow-dark">CRITERIO ANTES QUE MODA</p>
+          <h2>No todo problema necesita IA.</h2>
+          <p>Elegir una tecnología es una decisión de diseño operativo, no una obligación comercial.</p>
+        </div>
+
+        <div class="decision-table" role="list" aria-label="Criterios de selección tecnológica">
+          <div class="decision-row" role="listitem">
+            <div class="decision-input"><span>REGLA CLARA</span><small>repetitiva · estable</small></div>
+            <div class="decision-arrow" aria-hidden="true">→</div>
+            <div class="decision-output"><strong>Automatización</strong><small>menos complejidad</small></div>
+          </div>
+          <div class="decision-row" role="listitem">
+            <div class="decision-input"><span>WORKFLOW ESPECÍFICO</span><small>estado · roles · integración</small></div>
+            <div class="decision-arrow" aria-hidden="true">→</div>
+            <div class="decision-output"><strong>Software / integración</strong><small>flujo explícito</small></div>
+          </div>
+          <div class="decision-row agent-choice" role="listitem">
+            <div class="decision-input"><span>CONTEXTO DINÁMICO</span><small>herramientas · documentos · decisión</small></div>
+            <div class="decision-arrow" aria-hidden="true">→</div>
+            <div class="decision-output"><strong>Agente de IA</strong><small>con límites y control</small></div>
+          </div>
+          <div class="decision-row no-build" role="listitem">
+            <div class="decision-input"><span>VALOR INSUFICIENTE</span><small>costo &gt; mejora esperada</small></div>
+            <div class="decision-arrow" aria-hidden="true">→</div>
+            <div class="decision-output"><strong>No construir</strong><small>también es una decisión válida</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="agents dark-section" id="agentes">
+      <div class="shell agents-grid">
+        <div>
+          <p class="eyebrow">AGENTES DENTRO DE LA OPERACIÓN</p>
+          <h2>Razonar no alcanza.<br />También hay que gobernar la acción.</h2>
+          <p class="agents-copy">Un agente puede consultar sistemas, usar herramientas, procesar documentos y coordinar tareas. Cuando una acción tiene impacto real, definimos permisos, aprobación humana y trazabilidad según el riesgo.</p>
+          <p class="readiness-note"><span>AGENT READINESS</span> También preparamos datos y servicios para que puedan ser entendidos y utilizados de forma segura por agentes externos.</p>
+        </div>
+
+        <div class="agent-diagram" role="img" aria-label="Persona o sistema envía contexto a un agente; el agente usa herramientas bajo políticas, aprobación humana y auditoría antes de producir una acción">
+          <div class="diagram-node source-node"><small>ENTRADA</small><strong>Persona / sistema</strong></div>
+          <div class="diagram-link" aria-hidden="true">→</div>
+          <div class="diagram-node agent-node"><small>RAZONAMIENTO</small><strong>Agente</strong><span>contexto + tools</span></div>
+          <div class="diagram-link" aria-hidden="true">→</div>
+          <div class="diagram-node tool-node"><small>TOOLS</small><strong>Sistemas / APIs</strong></div>
+          <div class="governance-band">
+            <span>POLICY</span><span>HITL</span><span>AUDIT</span>
+          </div>
+          <div class="diagram-output"><small>SALIDA</small><strong>Acción / resultado</strong><span>trazable y verificable</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="evidence light-section" id="evidencia">
+      <div class="shell">
+        <div class="evidence-heading">
+          <div>
+            <p class="eyebrow eyebrow-dark">EVIDENCIA, NO PROMESAS</p>
+            <h2>Mostramos lo que podemos sostener.</h2>
+          </div>
+          <p>Los proyectos alimentan evidencia de capacidades. No los usamos para inventar clientes, ROI o validación de mercado.</p>
+        </div>
+
+        <div class="evidence-list">
+          {evidence.map((item, index) => (
+            <article class="evidence-item">
+              <div class="evidence-index">0{index + 1}</div>
+              <div class="evidence-main">
+                <p class="evidence-label">{item.label}</p>
+                <h3>{item.title}</h3>
+                <p>{item.problem}</p>
+              </div>
+              <div class="evidence-proof">
+                <small>EVIDENCIA</small>
+                <p>{item.proof}</p>
+                <span class="status-tag">{item.status}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="contexts dark-section" aria-labelledby="contexts-title">
+      <div class="shell contexts-grid">
+        <div>
+          <p class="eyebrow">CONTEXTOS</p>
+          <h2 id="contexts-title">Donde este enfoque puede aplicar.</h2>
+          <p>No son mercados que declaramos dominados. Son operaciones donde la combinación de software, integración, datos y agentes puede tener sentido si la evidencia lo confirma.</p>
+        </div>
+        <div class="context-list">
+          <div><span>01</span><strong>Hospitality y servicios</strong><small>reservas · atención · coordinación operativa</small></div>
+          <div><span>02</span><strong>Logística y operaciones de campo</strong><small>movimientos · tareas · información distribuida</small></div>
+          <div><span>03</span><strong>Proveedores, industria y minería</strong><small>documentación · mantenimiento · coordinación · compras</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact light-section" id="contacto">
+      <div class="shell contact-inner">
+        <div>
+          <p class="eyebrow eyebrow-dark">PRIMERA CONVERSACIÓN</p>
+          <h2>Hablemos de tu operación.</h2>
+        </div>
+        <div class="contact-copy">
+          <p>La conversación empieza por el workflow, la fricción y el resultado que tendría sentido mejorar. No por una pila tecnológica.</p>
+          <p class="contact-pending">Canal de contacto real a definir antes de Publication Readiness.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer dark-section">
+    <div class="shell footer-inner">
+      <img src="/brand/faldeo-lockup-horizontal-dark.svg" alt="FALDEO" />
+      <p>Soluciones tecnológicas para operaciones reales.</p>
+      <span>BUILD privado · publicación pendiente</span>
+    </div>
+  </footer>
+</BaseLayout>

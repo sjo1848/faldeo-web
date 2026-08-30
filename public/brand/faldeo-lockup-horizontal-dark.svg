@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 620">
+<rect width="1700" height="620" fill="#202629"/>
+<g transform="translate(20,0)">
+<path d="M90 420 L205 250 L340 120 L470 225" fill="none" stroke="#F2EEE5" stroke-width="16" stroke-linecap="square" stroke-linejoin="miter"/>
+<path d="M145 445 L245 305 L340 210 L440 285" fill="none" stroke="#F2EEE5" stroke-width="16" stroke-linecap="square" stroke-linejoin="miter"/>
+<path d="M205 465 L282 355 L340 300 L400 345" fill="none" stroke="#F2EEE5" stroke-width="16" stroke-linecap="square" stroke-linejoin="miter"/>
+<path d="M360 425 L455 365 L545 430" fill="none" stroke="#F2EEE5" stroke-width="16" stroke-linecap="square" stroke-linejoin="miter"/>
+<path d="M385 475 L470 425 L535 475" fill="none" stroke="#F2EEE5" stroke-width="16" stroke-linecap="square" stroke-linejoin="miter"/>
+<path d="M135 490 L205 445 L295 445 L345 395 L405 395 L455 335 L507 276" fill="none" stroke="#B66A3C" stroke-width="18" stroke-linecap="square" stroke-linejoin="miter"/>
+<circle cx="115" cy="500" r="17" fill="none" stroke="#B66A3C" stroke-width="8.8"/>
+<rect x="511.0" y="246.0" width="28" height="28" fill="none" stroke="#B66A3C" stroke-width="8.8"/>
+</g>
+<svg x="690" y="190" width="850" height="170" viewBox="0 0 700 140">
+<g transform="translate(0,0) scale(1)"><g transform="translate(0,0)"><path d="M0 0 H88 V18 H22 V57 H76 V75 H22 V140 H0 Z" fill="#F2EEE5"/></g><g transform="translate(116,0)"><path fill-rule="evenodd" d="M0 140 L38 0 H62 L100 140 H78 L69 105 H31 L22 140 Z M36 86 H64 L50 30 Z" fill="#F2EEE5"/></g><g transform="translate(244,0)"><path d="M0 0 H22 V120 H88 V140 H0 Z" fill="#F2EEE5"/></g><g transform="translate(360,0)"><path fill-rule="evenodd" d="M0 0 H63 L92 26 V114 L63 140 H0 Z M22 20 V120 H55 L70 106 V34 L55 20 Z" fill="#F2EEE5"/></g><g transform="translate(480,0)"><path d="M0 0 H88 V18 H22 V59 H76 V77 H22 V122 H88 V140 H0 Z" fill="#F2EEE5"/></g><g transform="translate(596,0)"><path fill-rule="evenodd" d="M25 0 H70 L96 25 V115 L70 140 H25 L0 115 V25 Z M31 20 L22 29 V111 L31 120 H64 L74 110 V30 L64 20 Z" fill="#F2EEE5"/></g></g>
+</svg>
+<text x="690" y="415" fill="#B66A3C" font-size="22" font-family="Arial, sans-serif" letter-spacing="1.1">SOLUCIONES TECNOLÓGICAS PARA OPERACIONES REALES</text>
+</svg>

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/qa-fixes.css';
+import { siteConfig } from '../config/site';
 
 interface Props {
   title?: string;
@@ -11,6 +12,10 @@ const {
   title = 'FALDEO — Soluciones tecnológicas para operaciones reales',
   description = 'Software, automatización, datos e inteligencia artificial alrededor de operaciones reales, con criterio, trazabilidad y control.'
 } = Astro.props;
+
+const canonicalUrl = siteConfig.siteUrl
+  ? new URL(Astro.url.pathname, siteConfig.siteUrl).toString()
+  : undefined;
 ---
 <!doctype html>
 <html lang="es-AR">
@@ -20,7 +25,17 @@ const {
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#202629" />
-    <meta name="robots" content="noindex, nofollow" />
+    <meta name="robots" content={siteConfig.robots} />
+
+    <meta property="og:site_name" content="FALDEO" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta name="twitter:card" content="summary" />
+
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>

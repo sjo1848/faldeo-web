@@ -1,0 +1,39 @@
+:root {
+  --copper-on-dark: #c97b47;
+  --copper-on-light: #94502f;
+  --copper-button: #9f522c;
+  --muted: #596064;
+}
+
+/* Keep the approved copper signal for graphics; use contrast-safe variants for text. */
+.eyebrow,
+.step-number,
+.step-mark,
+.context-list span {
+  color: var(--copper-on-dark);
+}
+
+.eyebrow-dark,
+.friction-line .fault span,
+.decision-arrow,
+.evidence-index {
+  color: var(--copper-on-light);
+}
+
+.button {
+  border-color: var(--copper-button);
+  background: var(--copper-button);
+  color: var(--bone);
+}
+
+.button:hover {
+  border-color: var(--copper-on-dark);
+}
+
+.agent-choice .decision-output strong {
+  color: #2b7180;
+}
+
+.contact-pending {
+  color: #675f57;
+}

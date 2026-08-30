@@ -4,9 +4,9 @@ Sitio corporativo de FALDEO — soluciones tecnológicas para operaciones reales
 
 ## Estado
 
-`WEB-05 — QA & Hardening / VALIDATE`
+`WEB-06 — Publication Readiness / VALIDATE`
 
-El repositorio permanece privado durante BUILD y VALIDATE. La publicación pública requiere el gate `HG-WEB-002`.
+El repositorio permanece privado durante VALIDATE. La publicación pública requiere el gate `HG-WEB-002`.
 
 ## Stack
 
@@ -22,11 +22,54 @@ npm install
 npm run dev
 ```
 
-## Build
+## Build privado por defecto
 
 ```bash
 npm run build
+node scripts/qa-static.mjs
+node scripts/release-readiness.mjs
 ```
+
+Sin configuración adicional, el build queda deliberadamente:
+
+- `noindex,nofollow`;
+- `robots.txt` bloqueando crawling;
+- sin canonical pública;
+- sin canal de contacto externo;
+- sin analytics;
+- con estado de candidata privada visible.
+
+## Build público — sólo después de HG-WEB-002
+
+La liberación pública es fail-closed. Requiere explícitamente:
+
+```text
+PUBLIC_SITE_PUBLIC=true
+PUBLIC_SITE_URL=<URL pública aprobada>
+PUBLIC_CONTACT_URL=<canal real aprobado; mailto: o https:>
+PUBLIC_CONTACT_LABEL=<texto visible del CTA>
+```
+
+Si `PUBLIC_SITE_PUBLIC=true` y falta URL o contacto, el build falla.
+
+Cuando la configuración pública es válida:
+
+- robots cambia a `index, follow`;
+- `robots.txt` permite crawling;
+- canonical y Open Graph URL usan la URL aprobada;
+- se habilita el CTA real de contacto;
+- desaparece el estado de publicación pendiente.
+
+No hay analytics, cookies de seguimiento, formulario, backend ni scripts de terceros en v0.1.
+
+## Simulación de publicación
+
+El workflow `web-release-readiness` prueba dos modos sin desplegar nada:
+
+1. build privado real;
+2. simulación de build público con valores reservados `.invalid` usados sólo como fixtures de CI.
+
+Esto verifica que la candidata puede pasar de modo privado a público únicamente mediante configuración explícita, sin introducir datos ficticios en producción.
 
 ## Principio de producto
 
@@ -34,6 +77,6 @@ La web debe expresar el criterio de FALDEO antes que un catálogo de tecnología
 
 `TERRENO → FRICCIÓN → CRITERIO → RECORRIDO → CAPACIDAD`
 
-## Publicación
+## Límites
 
-La rama de QA valida la candidata en privado. `noindex,nofollow` se mantiene hasta Publication Readiness y el gate `HG-WEB-002`.
+`WEB-06` prepara la release candidate. No compra dominio, no habilita deploy, no hace público el repositorio y no publica la web. Esas acciones permanecen bloqueadas hasta `HG-WEB-002`.

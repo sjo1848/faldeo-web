@@ -4,12 +4,12 @@ const configs = [
   {
     name: 'mobile',
     path: 'qa/lighthouse-mobile.json',
-    thresholds: { performance: 0.9, accessibility: 0.95, 'best-practices': 0.95 }
+    thresholds: { performance: 0.9, accessibility: 1, 'best-practices': 1 }
   },
   {
     name: 'desktop',
     path: 'qa/lighthouse-desktop.json',
-    thresholds: { performance: 0.95, accessibility: 0.95, 'best-practices': 0.95 }
+    thresholds: { performance: 0.95, accessibility: 1, 'best-practices': 1 }
   }
 ];
 

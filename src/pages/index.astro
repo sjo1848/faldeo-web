@@ -13,24 +13,24 @@ const approach = [
 const evidence = [
   {
     label: 'OPERACIÓN HOTELERA',
-    title: 'Reservas y disponibilidad dentro de un sistema operativo real',
+    title: 'Reservas y disponibilidad dentro de un sistema hotelero en staging',
     problem: 'Recepción, disponibilidad y reservas necesitan compartir una misma fuente operativa.',
-    proof: 'Producto hotelero en staging con workflows de recepción, habitaciones y reservas.',
-    status: 'PRODUCT EVIDENCE'
+    proof: 'Workflows de recepción, habitaciones, disponibilidad y reservas implementados en un producto hotelero en staging.',
+    status: 'EVIDENCIA DE PRODUCTO'
   },
   {
     label: 'AGENTES + SISTEMAS',
     title: 'Agentes conectados a herramientas reales bajo límites explícitos',
     problem: 'Un agente útil necesita operar sobre datos y herramientas sin recibir acceso irrestricto.',
     proof: 'Flujo verificado en staging: agente → Service Binding → sistema operativo → disponibilidad y cotización.',
-    status: 'TECHNICAL PROOF'
+    status: 'PRUEBA TÉCNICA'
   },
   {
     label: 'ARQUITECTURA OPERATIVA',
     title: 'Aislamiento y trazabilidad para workflows multi-tenant',
     problem: 'Compartir infraestructura no debe mezclar contexto, permisos ni datos entre organizaciones.',
-    proof: 'Routing confiable por tenant, políticas de herramientas y auditoría como capacidades internas.',
-    status: 'CAPABILITY EVIDENCE'
+    proof: 'Routing por tenant, políticas de herramientas y auditoría verificados como capacidades internas.',
+    status: 'EVIDENCIA DE CAPACIDAD'
   }
 ];
 ---

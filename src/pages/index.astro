@@ -268,9 +268,9 @@ const evidence = [
             >
               {siteConfig.contactLabel}
             </a>
-          ) : (
+          ) : !siteConfig.isCloudflarePreview ? (
             <p class="contact-pending">El canal de contacto se habilitará únicamente al aprobar la publicación.</p>
-          )}
+          ) : null}
         </div>
       </div>
     </section>

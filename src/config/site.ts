@@ -1,5 +1,5 @@
 const indexedRelease = import.meta.env.PUBLIC_SITE_PUBLIC === 'true';
-const cloudflarePreview = import.meta.env.CF_PAGES === '1' && !indexedRelease;
+const cloudflarePreview = process.env.CF_PAGES === '1' && !indexedRelease;
 
 const rawSiteUrl = import.meta.env.PUBLIC_SITE_URL?.trim() || '';
 const rawContactUrl = import.meta.env.PUBLIC_CONTACT_URL?.trim() || '';

@@ -4,7 +4,7 @@ import { siteConfig } from '../config/site';
 export const prerender = true;
 
 export const GET: APIRoute = () => {
-  const body = siteConfig.isPublicRelease
+  const body = siteConfig.isIndexedRelease
     ? 'User-agent: *\nAllow: /\n'
     : 'User-agent: *\nDisallow: /\n';
 

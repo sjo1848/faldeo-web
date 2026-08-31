@@ -1,6 +1,7 @@
 name: web-release-readiness
 
 on:
+  workflow_call:
   pull_request:
     branches: [main]
 

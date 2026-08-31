@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 const html = readFileSync('dist/index.html', 'utf8');
 const robots = readFileSync('dist/robots.txt', 'utf8');
 const publicRelease = process.env.PUBLIC_SITE_PUBLIC === 'true';
+const cloudflarePreview = process.env.CF_PAGES === '1' && !publicRelease;
 const siteUrl = process.env.PUBLIC_SITE_URL?.trim() || '';
 const contactUrl = process.env.PUBLIC_CONTACT_URL?.trim() || '';
 const contactLabel = process.env.PUBLIC_CONTACT_LABEL?.trim() || 'Abrir canal de contacto';
@@ -39,11 +40,18 @@ if (publicRelease) {
   check('robots.txt bloquea crawling', robots.includes('Disallow: /'));
   check('Sin canonical antes de URL aprobada', !html.includes('rel="canonical"'));
   check('Sin OG URL antes de URL aprobada', !html.includes('property="og:url"'));
-  check('Estado privado visible', html.includes('PUBLICACIÓN PENDIENTE'));
-  check('Contacto bloqueado hasta gate', html.includes('se habilitará únicamente al aprobar la publicación'));
+
+  if (cloudflarePreview) {
+    check('Sin estado privado visible en preview', !html.includes('PUBLICACIÓN PENDIENTE'));
+    check('Sin copy interno del gate en preview', !html.includes('se habilitará únicamente al aprobar la publicación'));
+  } else {
+    check('Estado privado visible', html.includes('PUBLICACIÓN PENDIENTE'));
+    check('Contacto bloqueado hasta gate', html.includes('se habilitará únicamente al aprobar la publicación'));
+  }
 }
 
-console.log(`\nFALDEO WEB-06 — ${publicRelease ? 'public release simulation' : 'private readiness'}\n`);
+const mode = publicRelease ? 'public release simulation' : cloudflarePreview ? 'Cloudflare preview' : 'private readiness';
+console.log(`\nFALDEO WEB-06 — ${mode}\n`);
 for (const item of checks) {
   console.log(`${item.ok ? 'PASS' : 'FAIL'}  ${item.name}${item.detail ? ` (${item.detail})` : ''}`);
 }

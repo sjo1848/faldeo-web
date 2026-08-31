@@ -77,6 +77,14 @@ La web debe expresar el criterio de FALDEO antes que un catálogo de tecnología
 
 `TERRENO → FRICCIÓN → CRITERIO → RECORRIDO → CAPACIDAD`
 
+## Evidencia técnica interna
+
+La matriz de capacidades y claims de **Agentic AI Engineering** se mantiene en:
+
+`docs/agentic-ai-engineering-evidence.md`
+
+La regla es explícita: formación, implementación, aceptación de producto y validación de mercado son niveles de evidencia distintos. La documentación pública sólo puede promover claims respaldados por el nivel correspondiente.
+
 ## Límites
 
 `WEB-06` prepara la release candidate. No compra dominio, no habilita deploy, no hace público el repositorio y no publica la web. Esas acciones permanecen bloqueadas hasta `HG-WEB-002`.

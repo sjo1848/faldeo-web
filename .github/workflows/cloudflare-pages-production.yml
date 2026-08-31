@@ -44,6 +44,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v5
@@ -58,6 +60,22 @@ jobs:
         run: |
           npm run build
           node scripts/release-readiness.mjs
+
+      - name: Verify release commit is still current main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          CURRENT_MAIN="$(git rev-parse origin/main)"
+          RELEASE_SHA="$(git rev-parse HEAD)"
+
+          echo "Release SHA: $RELEASE_SHA"
+          echo "Current main: $CURRENT_MAIN"
+
+          if [ "$RELEASE_SHA" != "$CURRENT_MAIN" ]; then
+            echo "Production deployment aborted: this workflow targets a stale main commit."
+            exit 1
+          fi
 
       - name: Deploy production
         uses: cloudflare/wrangler-action@v3

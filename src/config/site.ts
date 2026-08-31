@@ -1,4 +1,5 @@
-const isPublicRelease = import.meta.env.PUBLIC_SITE_PUBLIC === 'true';
+const indexedRelease = import.meta.env.PUBLIC_SITE_PUBLIC === 'true';
+const cloudflarePreview = import.meta.env.CF_PAGES === '1' && !indexedRelease;
 
 const rawSiteUrl = import.meta.env.PUBLIC_SITE_URL?.trim() || '';
 const rawContactUrl = import.meta.env.PUBLIC_CONTACT_URL?.trim() || '';
@@ -31,18 +32,20 @@ function normalizeContactUrl(value: string): string | undefined {
 const siteUrl = normalizeSiteUrl(rawSiteUrl);
 const contactUrl = normalizeContactUrl(rawContactUrl);
 
-if (isPublicRelease && !siteUrl) {
+if (indexedRelease && !siteUrl) {
   throw new Error('Public release blocked: PUBLIC_SITE_URL is required.');
 }
 
-if (isPublicRelease && !contactUrl) {
+if (indexedRelease && !contactUrl) {
   throw new Error('Public release blocked: PUBLIC_CONTACT_URL is required.');
 }
 
 export const siteConfig = Object.freeze({
-  isPublicRelease,
+  isPublicRelease: indexedRelease || cloudflarePreview,
+  isIndexedRelease: indexedRelease,
+  isCloudflarePreview: cloudflarePreview,
   siteUrl,
   contactUrl,
   contactLabel,
-  robots: isPublicRelease ? 'index, follow' : 'noindex, nofollow'
+  robots: indexedRelease ? 'index, follow' : 'noindex, nofollow'
 });

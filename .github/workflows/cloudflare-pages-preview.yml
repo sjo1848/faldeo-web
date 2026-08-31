@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: cloudflare-pages-preview
+  cancel-in-progress: true
+
 permissions:
   contents: read
   deployments: write

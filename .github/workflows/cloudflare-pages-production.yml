@@ -1,0 +1,70 @@
+name: cloudflare-pages-production
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  web-ci:
+    uses: ./.github/workflows/ci.yml
+
+  web-qa:
+    uses: ./.github/workflows/qa.yml
+
+  web-release-readiness:
+    uses: ./.github/workflows/web-release-readiness.yml
+
+  deploy-production:
+    name: Deploy indexed production
+    needs:
+      - web-ci
+      - web-qa
+      - web-release-readiness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    env:
+      PUBLIC_SITE_PUBLIC: 'true'
+      PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+      PUBLIC_CONTACT_URL: ${{ vars.PUBLIC_CONTACT_URL }}
+      PUBLIC_CONTACT_LABEL: ${{ vars.PUBLIC_CONTACT_LABEL }}
+    steps:
+      - name: Require main and approved public configuration
+        run: |
+          test "$GITHUB_REF" = "refs/heads/main"
+          test -n "$PUBLIC_SITE_URL"
+          test -n "$PUBLIC_CONTACT_URL"
+
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Build and validate indexed release
+        run: |
+          npm run build
+          node scripts/release-readiness.mjs
+
+      - name: Deploy production
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: >-
+            pages deploy dist
+            --project-name=faldeo-web
+            --branch=main
+            --commit-hash=${{ github.sha }}
+            --commit-message="Manual indexed production release"
+            --commit-dirty=false

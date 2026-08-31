@@ -1,0 +1,62 @@
+name: cloudflare-pages-preview
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  web-ci:
+    uses: ./.github/workflows/ci.yml
+
+  web-qa:
+    uses: ./.github/workflows/qa.yml
+
+  web-release-readiness:
+    uses: ./.github/workflows/web-release-readiness.yml
+
+  deploy-preview:
+    name: Deploy stable preview
+    needs:
+      - web-ci
+      - web-qa
+      - web-release-readiness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Build non-indexed Cloudflare preview
+        env:
+          CF_PAGES: '1'
+        run: |
+          npm run build
+          node scripts/qa-static.mjs
+          node scripts/release-readiness.mjs
+
+      - name: Deploy stable preview
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: >-
+            pages deploy dist
+            --project-name=faldeo-web
+            --branch=web-07-preview
+            --commit-hash=${{ github.sha }}
+            --commit-dirty=false

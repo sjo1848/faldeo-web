@@ -88,6 +88,17 @@ La rama y los preview deployments no sustituyen el Publication Gate. No habilita
 
 `public/_headers` define headers defensivos compatibles con el hosting estático de Pages. No se agregan Workers, Functions ni infraestructura adicional para v0.1.
 
+## Deployment
+
+El proyecto `faldeo-web` se mantiene como **Cloudflare Pages Direct Upload** y se despliega con GitHub Actions + Wrangler.
+
+- **Preview:** cada push aceptado en `main` ejecuta CI, QA y release-readiness; si todo pasa, construye con `CF_PAGES=1` y actualiza `https://web-07-preview.faldeo-web.pages.dev` sin habilitar indexación.
+- **Production:** el workflow manual `cloudflare-pages-production` vuelve a ejecutar los quality gates y requiere el environment protegido `production`, `PUBLIC_SITE_URL` y `PUBLIC_CONTACT_URL`. No se publica automáticamente.
+
+Los workflows usan los repository secrets `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID`. El token se limita a `Account / Cloudflare Pages / Edit` para esta cuenta.
+
+Rollback mínimo: revertir el commit problemático en `main` para que el pipeline vuelva a publicar, o ejecutar nuevamente el workflow sobre un commit anterior después de identificar el deployment correspondiente en Cloudflare Pages.
+
 ## Simulación de publicación
 
 El workflow `web-release-readiness` prueba dos modos sin desplegar nada:

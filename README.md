@@ -62,6 +62,32 @@ Cuando la configuración pública es válida:
 
 No hay analytics, cookies de seguimiento, formulario, backend ni scripts de terceros en v0.1.
 
+## Target de publicación — Cloudflare Pages
+
+Decisión de hosting para v0.1: **Cloudflare Pages**, sitio estático y sin Pages Functions.
+
+Configuración del proyecto Pages:
+
+```text
+Production branch: main
+Build command: npm run build
+Build directory: dist
+Root directory: /
+```
+
+Variables de producción requeridas después de `HG-WEB-002`:
+
+```text
+PUBLIC_SITE_PUBLIC=true
+PUBLIC_SITE_URL=<URL final de Pages o dominio aprobado>
+PUBLIC_CONTACT_URL=<canal real aprobado>
+PUBLIC_CONTACT_LABEL=<texto visible aprobado>
+```
+
+La rama y los preview deployments no sustituyen el Publication Gate. No habilitar las variables públicas de producción antes de `HG-WEB-002`.
+
+`public/_headers` define headers defensivos compatibles con el hosting estático de Pages. No se agregan Workers, Functions ni infraestructura adicional para v0.1.
+
 ## Simulación de publicación
 
 El workflow `web-release-readiness` prueba dos modos sin desplegar nada:
@@ -87,4 +113,4 @@ La regla es explícita: formación, implementación, aceptación de producto y v
 
 ## Límites
 
-`WEB-06` prepara la release candidate. No compra dominio, no habilita deploy, no hace público el repositorio y no publica la web. Esas acciones permanecen bloqueadas hasta `HG-WEB-002`.
+`WEB-06` prepara la release candidate. Cloudflare Pages queda elegido como target, pero no se compra dominio, no se habilita deploy público, no se hace público el repositorio y no se publica la web hasta `HG-WEB-002`.

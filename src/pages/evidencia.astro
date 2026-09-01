@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const HMS_SNAPSHOT = '4df56a6217caab611f2f5fcbd98bde8386bb5629';
+const ACP_SNAPSHOT = '91df4f49ee4b3e4e6e9f5808a25a08e1c5d5cfbe';
+
 const records = [
   {
     id: 'hms',
@@ -8,6 +11,7 @@ const records = [
     eyebrow: 'OPERACIÓN HOTELERA',
     title: 'Sistema hotelero con recorridos operativos y evidencia de ingeniería pública',
     status: 'PÚBLICO · REPOSITORIO + CASO DE INGENIERÍA',
+    snapshot: HMS_SNAPSHOT,
     proves: [
       'Reservas, disponibilidad, recepción, habitaciones, housekeeping, cargos, pagos y checkout modelados como recorridos operativos.',
       'Walkthrough y capturas del producto con datos sintéticos.',
@@ -15,9 +19,9 @@ const records = [
     ],
     doesNotProve: 'No demuestra adopción de clientes, impacto comercial, ROI ni operación productiva de terceros.',
     links: [
-      ['Caso de ingeniería', 'https://github.com/sjo1848/hotel-management-system/blob/main/docs/ENGINEERING_CASE_STUDY.md'],
-      ['Repositorio público', 'https://github.com/sjo1848/hotel-management-system'],
-      ['Walkthrough y capturas', 'https://github.com/sjo1848/hotel-management-system/blob/main/docs/screenshots/README.md']
+      ['Caso de ingeniería', `https://github.com/sjo1848/hotel-management-system/blob/${HMS_SNAPSHOT}/docs/ENGINEERING_CASE_STUDY.md`],
+      ['Snapshot del repositorio', `https://github.com/sjo1848/hotel-management-system/tree/${HMS_SNAPSHOT}`],
+      ['Walkthrough y capturas', `https://github.com/sjo1848/hotel-management-system/blob/${HMS_SNAPSHOT}/docs/screenshots/README.md`]
     ]
   },
   {
@@ -26,6 +30,7 @@ const records = [
     eyebrow: 'AGENTES + SISTEMAS',
     title: 'Agente conectado a un sistema operativo bajo aprobación, política e idempotencia',
     status: 'PÚBLICO · STAGING CONTROLADO',
+    snapshot: ACP_SNAPSHOT,
     proves: [
       'Disponibilidad y cotización consultadas mediante una conexión real entre Agent Core y HMS.',
       'Creación y cancelación de reservas supervisadas mediante aprobación humana vinculada a la operación exacta.',
@@ -33,9 +38,9 @@ const records = [
     ],
     doesNotProve: 'No demuestra producción, datos reales de clientes, pagos reales ni autonomía abierta sobre acciones de negocio.',
     links: [
-      ['Cierre de evidencia ACP 2.5', 'https://github.com/sjo1848/ai-commerce-platform/blob/main/.orchestration/evidence/ACP-2.5-CLOSURE.md'],
-      ['Repositorio público', 'https://github.com/sjo1848/ai-commerce-platform'],
-      ['Invariantes de seguridad y control', 'https://github.com/sjo1848/ai-commerce-platform/blob/main/.orchestration/INVARIANTS.md']
+      ['Cierre de evidencia ACP 2.5', `https://github.com/sjo1848/ai-commerce-platform/blob/${ACP_SNAPSHOT}/.orchestration/evidence/ACP-2.5-CLOSURE.md`],
+      ['Snapshot del repositorio', `https://github.com/sjo1848/ai-commerce-platform/tree/${ACP_SNAPSHOT}`],
+      ['Invariantes de seguridad y control', `https://github.com/sjo1848/ai-commerce-platform/blob/${ACP_SNAPSHOT}/.orchestration/INVARIANTS.md`]
     ]
   },
   {
@@ -44,6 +49,7 @@ const records = [
     eyebrow: 'ARQUITECTURA OPERATIVA',
     title: 'Separación de contexto, autoridad y ejecución entre organizaciones',
     status: 'PÚBLICO · INVARIANTES + CÓDIGO',
+    snapshot: ACP_SNAPSHOT,
     proves: [
       'La identidad de organización proviene de contexto confiable del servidor y no del mensaje del usuario o del modelo.',
       'Las herramientas visibles se limitan por organización y la política se evalúa antes de ejecutar acciones.',
@@ -51,9 +57,9 @@ const records = [
     ],
     doesNotProve: 'No equivale a una certificación de seguridad, auditoría externa ni garantía general contra vulnerabilidades.',
     links: [
-      ['Registro de invariantes', 'https://github.com/sjo1848/ai-commerce-platform/blob/main/.orchestration/INVARIANTS.md'],
-      ['Código de Agent Core', 'https://github.com/sjo1848/ai-commerce-platform/tree/main/src'],
-      ['Evidencia de staging', 'https://github.com/sjo1848/ai-commerce-platform/tree/main/.orchestration/evidence']
+      ['Registro de invariantes', `https://github.com/sjo1848/ai-commerce-platform/blob/${ACP_SNAPSHOT}/.orchestration/INVARIANTS.md`],
+      ['Código de Agent Core', `https://github.com/sjo1848/ai-commerce-platform/tree/${ACP_SNAPSHOT}/src`],
+      ['Evidencia de staging', `https://github.com/sjo1848/ai-commerce-platform/tree/${ACP_SNAPSHOT}/.orchestration/evidence`]
     ]
   }
 ];
@@ -94,7 +100,7 @@ const records = [
         </div>
         <div class="evidence-page-intro">
           <p>Esta página conecta los claims técnicos de FALDEO con artefactos públicos concretos: repositorios, casos de ingeniería, invariantes y registros de validación.</p>
-          <p>No convierte pruebas técnicas en clientes, producción o resultados comerciales. Cada registro separa explícitamente lo que la evidencia permite concluir de lo que no.</p>
+          <p>Los enlaces se fijan a snapshots inmutables. No convierten pruebas técnicas en clientes, producción o resultados comerciales. Cada registro separa explícitamente lo que la evidencia permite concluir de lo que no.</p>
         </div>
       </div>
     </section>
@@ -114,6 +120,7 @@ const records = [
                 <p class="evidence-label">{record.eyebrow}</p>
                 <h3>{record.title}</h3>
                 <span class="status-tag">{record.status}</span>
+                <small class="evidence-snapshot">SNAPSHOT · {record.snapshot.slice(0, 12)}</small>
               </div>
               <div class="evidence-record-body">
                 <div>
@@ -127,7 +134,7 @@ const records = [
                   <p>{record.doesNotProve}</p>
                 </div>
                 <div class="evidence-artifacts">
-                  <small>ARTEFACTOS PÚBLICOS</small>
+                  <small>ARTEFACTOS PÚBLICOS · SNAPSHOT INMUTABLE</small>
                   <div>
                     {record.links.map(([label, href]) => (
                       <a href={href} target="_blank" rel="noopener noreferrer">

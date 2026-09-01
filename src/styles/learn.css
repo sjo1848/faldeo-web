@@ -1,0 +1,13 @@
+.mobile-contact-cta {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .signal-strip {
+    display: none;
+  }
+
+  .mobile-contact-cta {
+    display: inline-flex;
+  }
+}

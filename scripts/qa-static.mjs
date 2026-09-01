@@ -2,9 +2,13 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const htmlPath = 'dist/index.html';
-const cssPath = 'src/styles/global.css';
 const html = readFileSync(htmlPath, 'utf8');
-const css = readFileSync(cssPath, 'utf8');
+const pageSource = readFileSync('src/pages/index.astro', 'utf8');
+const css = [
+  'src/styles/global.css',
+  'src/styles/qa-fixes.css',
+  'src/styles/learn.css'
+].map((path) => readFileSync(path, 'utf8')).join('\n');
 
 const failures = [];
 const checks = [];
@@ -38,7 +42,23 @@ check('Headline locked', html.includes('Leemos tu operación.') && html.includes
 check('Criterio IA locked', html.includes('No todo problema necesita IA.'));
 check('Gobierno de agentes visible', html.includes('POLICY') && html.includes('HITL') && html.includes('AUDIT'));
 check('Sin formulario prematuro', !/<form\b/i.test(html));
-check('Sin scripts cliente', !/<script\b/i.test(html));
+
+const scriptTags = [...html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>/gi)].map((match) => match[0]);
+check('JS cliente acotado', scriptTags.length <= 1, `scripts inline: ${scriptTags.length}`);
+check('Sin scripts cliente externos', !/<script\b[^>]*\bsrc=/i.test(html));
+check(
+  'Menú mobile cierra al navegar',
+  pageSource.includes('data-mobile-nav') && pageSource.includes("menu.removeAttribute('open')")
+);
+check(
+  'CTA mobile condicionado a contacto real',
+  pageSource.includes('mobile-contact-cta') && pageSource.includes('siteConfig.contactUrl')
+);
+check(
+  'Signal strip comprimido en mobile',
+  /@media\s*\(max-width:\s*760px\)[\s\S]*?\.signal-strip\s*\{[\s\S]*?display:\s*none/.test(css)
+);
+
 check('Sin contacto ficticio', !/(mailto:|tel:|linkedin\.com|instagram\.com|facebook\.com)/i.test(html));
 check('Sin analytics', !/(googletagmanager|google-analytics|gtag\(|segment\.com|plausible\.io|clarity\.ms)/i.test(html));
 check('Sin recursos HTTP externos', !/(src|href)="https?:\/\//i.test(html));
@@ -60,7 +80,7 @@ const distBytes = dirSize('dist');
 check('Budget HTML < 80 KiB', htmlBytes < 80 * 1024, `${(htmlBytes / 1024).toFixed(1)} KiB`);
 check('Budget dist < 300 KiB', distBytes < 300 * 1024, `${(distBytes / 1024).toFixed(1)} KiB`);
 
-console.log('\nFALDEO WEB-05 — static QA');
+console.log('\nFALDEO WEB-05/08 — static QA');
 for (const item of checks) {
   console.log(`${item.ok ? 'PASS' : 'FAIL'}  ${item.name}${item.detail ? ` (${item.detail})` : ''}`);
 }

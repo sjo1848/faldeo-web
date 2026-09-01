@@ -1,0 +1,348 @@
+/* WEB-08.5-R2 — second motion pass
+   More visual presence without new JS, assets or content changes. */
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--copper-on-dark, var(--copper));
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-copy h1 {
+  position: relative;
+}
+
+.hero-copy h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -.72rem;
+  width: clamp(54px, 8vw, 92px);
+  height: 2px;
+  background: var(--copper-on-dark, var(--copper));
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: faldeo-hero-rule 720ms 520ms cubic-bezier(.2, .7, .25, 1) forwards;
+}
+
+.terrain-map::before {
+  content: "";
+  position: absolute;
+  left: 86.8%;
+  top: 21.8%;
+  width: 62px;
+  height: 62px;
+  border: 1px solid rgba(98, 184, 200, .62);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(.72);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  animation: faldeo-capacity-beacon 3.6s 1.35s ease-out infinite;
+}
+
+.terrain-map .map-label {
+  z-index: 3;
+}
+
+.friction,
+.approach,
+.criterion,
+.agents,
+.evidence,
+.contexts {
+  position: relative;
+}
+
+.friction::before,
+.approach::before,
+.criterion::before,
+.agents::before,
+.evidence::before,
+.contexts::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(86px, 13vw, 180px);
+  height: 2px;
+  background: var(--copper);
+  opacity: .78;
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.approach-list {
+  position: relative;
+}
+
+.approach-list::before,
+.approach-list::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 29px;
+  width: 1px;
+  pointer-events: none;
+}
+
+.approach-list::before {
+  background: #394247;
+}
+
+.approach-list::after {
+  background: var(--copper-on-dark, var(--copper));
+  opacity: .72;
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+.approach-step {
+  position: relative;
+  z-index: 1;
+}
+
+.decision-row {
+  position: relative;
+}
+
+.decision-row::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  bottom: 20%;
+  left: -1rem;
+  width: 2px;
+  background: var(--copper-on-light, var(--copper));
+  transform: scaleY(0);
+  transform-origin: center top;
+  transition: transform 220ms ease-out;
+}
+
+.decision-row:hover::before,
+.decision-row:focus-within::before {
+  transform: scaleY(1);
+}
+
+.agent-diagram {
+  position: relative;
+}
+
+.diagram-link {
+  position: relative;
+  min-height: 24px;
+}
+
+.diagram-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--copper-on-dark, var(--copper));
+  opacity: 0;
+  transform: translate(-22px, -50%) rotate(45deg);
+  animation: faldeo-data-packet 2.1s .15s ease-in-out infinite;
+}
+
+.agent-diagram > .diagram-link:nth-child(4)::after {
+  animation-delay: .58s;
+}
+
+.diagram-output {
+  position: relative;
+  overflow: hidden;
+}
+
+.diagram-output::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--ai);
+  opacity: .9;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: faldeo-output-confirm 4.2s 1.45s ease-in-out infinite;
+}
+
+.governance-band {
+  position: relative;
+}
+
+.governance-band::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -.5rem;
+  height: 1px;
+  background: var(--ai);
+  opacity: .18;
+  transform: scaleX(.08);
+  transform-origin: left center;
+  animation: faldeo-governance-trace 4.2s .8s ease-in-out infinite;
+}
+
+@supports (animation-timeline: scroll()) {
+  .site-header::after {
+    animation: faldeo-page-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .friction::before,
+  .approach::before,
+  .criterion::before,
+  .agents::before,
+  .evidence::before,
+  .contexts::before {
+    transform: scaleX(0);
+    animation: faldeo-section-traverse linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 18%;
+  }
+
+  .approach-list::after {
+    animation: faldeo-route-progress linear both;
+    animation-timeline: view();
+    animation-range: entry 12% cover 78%;
+  }
+}
+
+@keyframes faldeo-page-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes faldeo-hero-rule {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes faldeo-capacity-beacon {
+  0%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.7);
+  }
+  18% {
+    opacity: .72;
+  }
+  58% {
+    opacity: .2;
+    transform: translate(-50%, -50%) scale(1.28);
+  }
+  72% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.46);
+  }
+}
+
+@keyframes faldeo-section-traverse {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes faldeo-route-progress {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes faldeo-data-packet {
+  0%, 15%, 100% {
+    opacity: 0;
+    transform: translate(-22px, -50%) rotate(45deg) scale(.7);
+  }
+  28% {
+    opacity: .95;
+  }
+  72% {
+    opacity: .95;
+    transform: translate(16px, -50%) rotate(45deg) scale(1);
+  }
+  86% {
+    opacity: 0;
+    transform: translate(20px, -50%) rotate(45deg) scale(.7);
+  }
+}
+
+@keyframes faldeo-output-confirm {
+  0%, 46%, 100% { transform: scaleX(0); opacity: 0; }
+  58% { opacity: .9; }
+  76% { transform: scaleX(1); opacity: .9; }
+  88% { transform: scaleX(1); opacity: 0; }
+}
+
+@keyframes faldeo-governance-trace {
+  0%, 35%, 100% { transform: scaleX(.08); opacity: .12; }
+  58% { transform: scaleX(.68); opacity: .28; }
+  72% { transform: scaleX(1); opacity: .18; }
+}
+
+@media (max-width: 760px) {
+  .terrain-map::before {
+    width: 46px;
+    height: 46px;
+  }
+
+  .approach-list::before,
+  .approach-list::after {
+    left: 20px;
+  }
+
+  .friction::before,
+  .approach::before,
+  .criterion::before,
+  .agents::before,
+  .evidence::before,
+  .contexts::before {
+    width: 88px;
+  }
+
+  .decision-row::before {
+    left: -.55rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header::after,
+  .approach-list::after,
+  .diagram-link::after,
+  .diagram-output::before,
+  .governance-band::after {
+    display: none !important;
+  }
+
+  .hero-copy h1::after {
+    animation: none !important;
+    transform: scaleX(1) !important;
+  }
+
+  .terrain-map::before {
+    animation: none !important;
+    opacity: .34 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+  }
+
+  .friction::before,
+  .approach::before,
+  .criterion::before,
+  .agents::before,
+  .evidence::before,
+  .contexts::before {
+    animation: none !important;
+    transform: scaleX(1) !important;
+  }
+}

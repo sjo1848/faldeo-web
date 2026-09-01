@@ -44,15 +44,17 @@ jobs:
           cat /tmp/faldeo-web.log
           exit 1
 
-      - name: Lighthouse mobile
+      - name: Lighthouse mobile — three-run sample
         run: |
           mkdir -p qa
-          npx --yes lighthouse@13.4.1 http://127.0.0.1:4321/ \
-            --quiet \
-            --chrome-flags="--headless --no-sandbox --disable-gpu" \
-            --only-categories=performance,accessibility,best-practices \
-            --output=json \
-            --output-path=qa/lighthouse-mobile.json
+          for run in 1 2 3; do
+            npx --yes lighthouse@13.4.1 http://127.0.0.1:4321/ \
+              --quiet \
+              --chrome-flags="--headless --no-sandbox --disable-gpu" \
+              --only-categories=performance,accessibility,best-practices \
+              --output=json \
+              --output-path="qa/lighthouse-mobile-${run}.json"
+          done
 
       - name: Lighthouse desktop
         run: |

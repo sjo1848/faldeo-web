@@ -40,7 +40,14 @@ check('Meta description presente', /<meta name="description" content="[^"]+"/.te
 check('Noindex durante validación privada', html.includes('name="robots" content="noindex, nofollow"'));
 check('Headline locked', html.includes('Leemos tu operación.') && html.includes('Elegimos lo que realmente resuelve.'));
 check('Criterio IA locked', html.includes('No todo problema necesita IA.'));
-check('Gobierno de agentes visible', html.includes('POLICY') && html.includes('HITL') && html.includes('AUDIT'));
+check('Gobierno de agentes visible', html.includes('REGLAS') && html.includes('APROBACIÓN HUMANA') && html.includes('AUDITORÍA'));
+check('Oferta inicial visible', html.includes('PRIMERA INTERVENCIÓN') && html.includes('PRIMER ENTREGABLE') && html.includes('Piloto pequeño y medible'));
+check('Evidencia calibrada por entorno', html.includes('ENTORNO DE PRUEBA · FLUJO IMPLEMENTADO') && html.includes('INTERNO · CAPACIDAD TÉCNICA'));
+check('Hipótesis sectoriales explícitas', html.includes('HIPÓTESIS DE APLICACIÓN'));
+check(
+  'Jerga pública crítica reducida',
+  !/(\bworkflow\b|\bstaging\b|Service Binding|multi-tenant|Routing por tenant|\bPOLICY\b|\bHITL\b|\bAUDIT\b)/i.test(html)
+);
 check('Sin formulario prematuro', !/<form\b/i.test(html));
 
 const scriptTags = [...html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>/gi)].map((match) => match[0]);
@@ -53,6 +60,14 @@ check(
 check(
   'CTA mobile condicionado a contacto real',
   pageSource.includes('mobile-contact-cta') && pageSource.includes('siteConfig.contactUrl')
+);
+check(
+  'CTA desktop tiene fallback útil sin contacto',
+  pageSource.includes('Cómo empezamos') && pageSource.includes('href="#inicio-trabajo"')
+);
+check(
+  'Contacto real no se simula en preview',
+  pageSource.includes('!siteConfig.isCloudflarePreview') && pageSource.includes('siteConfig.contactUrl ?')
 );
 check(
   'Signal strip comprimido en mobile',

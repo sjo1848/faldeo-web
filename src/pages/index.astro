@@ -13,24 +13,24 @@ const approach = [
 const evidence = [
   {
     label: 'OPERACIÓN HOTELERA',
-    title: 'Reservas y disponibilidad dentro de un sistema hotelero en staging',
+    title: 'Reservas y disponibilidad en un sistema hotelero en entorno de prueba',
     problem: 'Recepción, disponibilidad y reservas necesitan compartir una misma fuente operativa.',
-    proof: 'Workflows de recepción, habitaciones, disponibilidad y reservas implementados en un producto hotelero en staging.',
-    status: 'STAGING · EVIDENCIA DE PRODUCTO'
+    proof: 'Proceso de recepción, habitaciones, disponibilidad y reservas implementado y probado en un entorno de prueba.',
+    status: 'ENTORNO DE PRUEBA · FLUJO IMPLEMENTADO'
   },
   {
     label: 'AGENTES + SISTEMAS',
-    title: 'Agentes conectados a herramientas reales bajo límites explícitos',
+    title: 'Agentes conectados a sistemas con permisos y controles definidos',
     problem: 'Un agente útil necesita operar sobre datos y herramientas sin recibir acceso irrestricto.',
-    proof: 'Flujo verificado en staging: agente → Service Binding → sistema operativo → disponibilidad y cotización.',
-    status: 'STAGING · PRUEBA TÉCNICA'
+    proof: 'Flujo técnico verificado en entorno de prueba: agente → conexión entre servicios → sistema operativo → disponibilidad y cotización.',
+    status: 'ENTORNO DE PRUEBA · PRUEBA TÉCNICA'
   },
   {
     label: 'ARQUITECTURA OPERATIVA',
-    title: 'Aislamiento y trazabilidad para workflows multi-tenant',
+    title: 'Separación y trazabilidad entre organizaciones',
     problem: 'Compartir infraestructura no debe mezclar contexto, permisos ni datos entre organizaciones.',
-    proof: 'Routing por tenant, políticas de herramientas y auditoría verificados como capacidades internas.',
-    status: 'INTERNO · CAPACIDAD VERIFICADA'
+    proof: 'Separación por organización, reglas de herramientas y auditoría verificadas como capacidad técnica interna.',
+    status: 'INTERNO · CAPACIDAD TÉCNICA'
   }
 ];
 ---
@@ -48,7 +48,17 @@ const evidence = [
         <a href="#evidencia">Evidencia</a>
       </nav>
 
-      <a class="button button-small desktop-cta" href="#contacto">Hablemos de tu operación</a>
+      {siteConfig.contactUrl ? (
+        <a
+          class="button button-small desktop-cta"
+          href={siteConfig.contactUrl}
+          rel={siteConfig.contactUrl.startsWith('https:') ? 'noopener noreferrer' : undefined}
+        >
+          {siteConfig.contactLabel}
+        </a>
+      ) : (
+        <a class="button button-small desktop-cta" href="#inicio-trabajo">Cómo empezamos</a>
+      )}
 
       <details class="mobile-nav" data-mobile-nav>
         <summary>Menú</summary>
@@ -57,7 +67,11 @@ const evidence = [
           <a href="#enfoque">Cómo trabajamos</a>
           <a href="#agentes">Agentes</a>
           <a href="#evidencia">Evidencia</a>
-          <a href="#contacto">Contacto</a>
+          {siteConfig.contactUrl ? (
+            <a href={siteConfig.contactUrl}>Contacto</a>
+          ) : (
+            <a href="#inicio-trabajo">Cómo empezamos</a>
+          )}
         </nav>
       </details>
     </div>
@@ -145,6 +159,26 @@ const evidence = [
           <p>Antes de diseñar una solución, buscamos entender el recorrido real.</p>
         </div>
 
+        <div class="engagement-bridge" id="inicio-trabajo">
+          <div>
+            <p class="eyebrow">PRIMERA INTERVENCIÓN</p>
+            <h3>Primero diagnosticamos. Después decidimos si vale la pena construir.</h3>
+          </div>
+          <div class="engagement-bridge-copy">
+            <p>Empezamos por un diagnóstico acotado de un proceso operativo. Mapeamos el recorrido actual, identificamos fricciones, riesgos y oportunidades, y recomendamos qué conviene resolver.</p>
+            <div class="engagement-outputs">
+              <div>
+                <small>PRIMER ENTREGABLE</small>
+                <strong>Mapa del proceso + fricciones + recomendación</strong>
+              </div>
+              <div>
+                <small>SI LA OPORTUNIDAD LO JUSTIFICA</small>
+                <strong>Piloto pequeño y medible sobre un solo proceso</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="approach-list">
           {approach.map(([number, title, body]) => (
             <article class="approach-step">
@@ -175,7 +209,7 @@ const evidence = [
             <div class="decision-output"><strong>Automatización</strong><small>menos complejidad</small></div>
           </div>
           <div class="decision-row" role="listitem">
-            <div class="decision-input"><span>WORKFLOW ESPECÍFICO</span><small>estado · roles · integración</small></div>
+            <div class="decision-input"><span>PROCESO ESPECÍFICO</span><small>estado · roles · integración</small></div>
             <div class="decision-arrow" aria-hidden="true">→</div>
             <div class="decision-output"><strong>Software / integración</strong><small>flujo explícito</small></div>
           </div>
@@ -199,19 +233,19 @@ const evidence = [
           <p class="eyebrow">AGENTES DENTRO DE LA OPERACIÓN</p>
           <h2>Razonar no alcanza.<br />También hay que gobernar la acción.</h2>
           <p class="agents-copy">Un agente puede consultar sistemas, usar herramientas, procesar documentos y coordinar tareas. Cuando una acción tiene impacto real, definimos permisos, aprobación humana y trazabilidad según el riesgo.</p>
-          <p class="readiness-note"><span>AGENT READINESS</span> También preparamos datos y servicios para que puedan ser entendidos y utilizados de forma segura por agentes externos.</p>
+          <p class="readiness-note"><span>PREPARACIÓN PARA AGENTES</span> También preparamos datos y servicios para que agentes autorizados puedan entenderlos y utilizarlos bajo reglas y permisos explícitos.</p>
         </div>
 
-        <div class="agent-diagram" role="img" aria-label="Persona o sistema envía contexto a un agente; el agente usa herramientas bajo políticas, aprobación humana y auditoría antes de producir una acción">
+        <div class="agent-diagram" role="img" aria-label="Persona o sistema envía contexto a un agente; el agente usa herramientas bajo reglas, aprobación humana y auditoría antes de producir una acción">
           <div class="diagram-node source-node"><small>ENTRADA</small><strong>Persona / sistema</strong></div>
           <div class="diagram-link" aria-hidden="true">→</div>
-          <div class="diagram-node agent-node"><small>RAZONAMIENTO</small><strong>Agente</strong><span>contexto + tools</span></div>
+          <div class="diagram-node agent-node"><small>RAZONAMIENTO</small><strong>Agente</strong><span>contexto + herramientas</span></div>
           <div class="diagram-link" aria-hidden="true">→</div>
-          <div class="diagram-node tool-node"><small>TOOLS</small><strong>Sistemas / APIs</strong></div>
+          <div class="diagram-node tool-node"><small>HERRAMIENTAS</small><strong>Sistemas / APIs</strong></div>
           <div class="governance-band">
-            <span>POLICY</span><span>HITL</span><span>AUDIT</span>
+            <span>REGLAS</span><span>APROBACIÓN HUMANA</span><span>AUDITORÍA</span>
           </div>
-          <div class="diagram-output"><small>SALIDA</small><strong>Acción / resultado</strong><span>trazable y verificable</span></div>
+          <div class="diagram-output"><small>SALIDA</small><strong>Acción / resultado</strong><span>registrable y revisable</span></div>
         </div>
       </div>
     </section>
@@ -220,10 +254,10 @@ const evidence = [
       <div class="shell">
         <div class="evidence-heading">
           <div>
-            <p class="eyebrow eyebrow-dark">TRABAJO VERIFICADO</p>
-            <h2>Capacidades que ya podemos demostrar.</h2>
+            <p class="eyebrow eyebrow-dark">EVIDENCIA TÉCNICA</p>
+            <h2>Capacidades que ya verificamos técnicamente.</h2>
           </div>
-          <p>Cada pieza parte de un workflow implementado o una capacidad técnica verificada. Mostramos qué se comprobó y en qué estado se encuentra.</p>
+          <p>Distinguimos pruebas en entornos de prueba de capacidades internas. Estos ítems documentan factibilidad e implementación técnica; no se presentan como resultados productivos o comerciales.</p>
         </div>
 
         <div class="evidence-list">
@@ -250,26 +284,26 @@ const evidence = [
       <div class="shell contexts-grid">
         <div>
           <p class="eyebrow">CONTEXTOS</p>
-          <h2 id="contexts-title">Donde este enfoque puede aplicar.</h2>
-          <p>Estos son contextos donde hoy vemos una aplicación razonable del enfoque. La prioridad se define por evidencia del problema, del workflow y del valor que tenga resolverlo.</p>
+          <h2 id="contexts-title">Dónde puede aplicar este enfoque.</h2>
+          <p>Hotelería cuenta hoy con evidencia de producto en entorno de prueba. Logística, operaciones de campo, proveedores, industria y minería se mantienen como hipótesis de aplicación hasta reunir evidencia específica.</p>
         </div>
         <div class="context-list">
-          <div><span>01</span><strong>Hospitality y servicios</strong><small>reservas · atención · coordinación operativa</small></div>
-          <div><span>02</span><strong>Logística y operaciones de campo</strong><small>movimientos · tareas · información distribuida</small></div>
-          <div><span>03</span><strong>Proveedores, industria y minería</strong><small>documentación · mantenimiento · coordinación · compras</small></div>
+          <div><span>01</span><strong>Hospitality y servicios</strong><small>reservas · atención · coordinación operativa · EVIDENCIA EN ENTORNO DE PRUEBA</small></div>
+          <div><span>02</span><strong>Logística y operaciones de campo</strong><small>movimientos · tareas · información distribuida · HIPÓTESIS DE APLICACIÓN</small></div>
+          <div><span>03</span><strong>Proveedores, industria y minería</strong><small>documentación · mantenimiento · coordinación · compras · HIPÓTESIS DE APLICACIÓN</small></div>
         </div>
       </div>
     </section>
 
-    <section class="contact light-section" id="contacto">
-      <div class="shell contact-inner">
-        <div>
-          <p class="eyebrow eyebrow-dark">PRIMERA CONVERSACIÓN</p>
-          <h2>Hablemos de tu operación.</h2>
-        </div>
-        <div class="contact-copy">
-          <p>La conversación empieza por el workflow, la fricción y el resultado que tendría sentido mejorar. No por una pila tecnológica.</p>
-          {siteConfig.contactUrl ? (
+    {siteConfig.contactUrl ? (
+      <section class="contact light-section" id="contacto">
+        <div class="shell contact-inner">
+          <div>
+            <p class="eyebrow eyebrow-dark">PRIMERA CONVERSACIÓN</p>
+            <h2>Hablemos de tu operación.</h2>
+          </div>
+          <div class="contact-copy">
+            <p>La conversación empieza por el proceso, la fricción y el resultado que tendría sentido mejorar. No por una pila tecnológica.</p>
             <a
               class="button button-small"
               href={siteConfig.contactUrl}
@@ -277,12 +311,23 @@ const evidence = [
             >
               {siteConfig.contactLabel}
             </a>
-          ) : !siteConfig.isCloudflarePreview ? (
-            <p class="contact-pending">El canal de contacto se habilitará únicamente al aprobar la publicación.</p>
-          ) : null}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    ) : !siteConfig.isCloudflarePreview ? (
+      <section class="contact light-section" id="contacto">
+        <div class="shell contact-inner">
+          <div>
+            <p class="eyebrow eyebrow-dark">PRIMERA CONVERSACIÓN</p>
+            <h2>Hablemos de tu operación.</h2>
+          </div>
+          <div class="contact-copy">
+            <p>La conversación empieza por el proceso, la fricción y el resultado que tendría sentido mejorar. No por una pila tecnológica.</p>
+            <p class="contact-pending">El canal de contacto se habilitará únicamente al aprobar la publicación.</p>
+          </div>
+        </div>
+      </section>
+    ) : null}
   </main>
 
   <footer class="site-footer dark-section">

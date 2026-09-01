@@ -201,6 +201,255 @@
   text-underline-offset: 4px;
 }
 
+/* WEB-08.5 — Motion & Visual Impact System */
+.button,
+.text-link,
+.evidence-summary-link,
+.approach-step,
+.decision-row,
+.evidence-item,
+.context-list > div,
+.diagram-node,
+.governance-band span {
+  transition-property: transform, border-color, color, background-color;
+  transition-duration: 180ms;
+  transition-timing-function: ease-out;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.text-link span,
+.evidence-summary-link span {
+  display: inline-block;
+  transition: transform 180ms ease-out;
+}
+
+.text-link:hover span,
+.evidence-summary-link:hover span {
+  transform: translateX(5px);
+}
+
+.hero-copy .eyebrow {
+  animation: faldeo-hero-rise 620ms 60ms cubic-bezier(.2, .7, .25, 1) both;
+}
+
+.hero-copy h1 {
+  animation: faldeo-hero-rise 760ms 120ms cubic-bezier(.2, .7, .25, 1) both;
+}
+
+.hero-lead {
+  animation: faldeo-hero-rise 760ms 210ms cubic-bezier(.2, .7, .25, 1) both;
+}
+
+.hero-actions {
+  animation: faldeo-hero-rise 760ms 300ms cubic-bezier(.2, .7, .25, 1) both;
+}
+
+.contours {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: faldeo-contour-drift 12s ease-in-out 1.2s infinite alternate;
+}
+
+.route {
+  stroke-dasharray: 1450;
+  stroke-dashoffset: 0;
+  animation: faldeo-route-draw 1.65s 180ms cubic-bezier(.35, .05, .2, 1) both;
+}
+
+.route-start,
+.route-end,
+.friction-point,
+.decision-point,
+.signal-point {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: faldeo-signal-pulse 3.2s ease-in-out infinite;
+}
+
+.friction-point { animation-delay: .45s; }
+.decision-point { animation-delay: .9s; }
+.signal-point { animation-delay: 1.35s; }
+.route-end { animation-delay: 1.8s; }
+
+.map-label {
+  animation: faldeo-label-arrive 660ms cubic-bezier(.2, .7, .25, 1) both;
+}
+
+.map-label-a { animation-delay: .3s; }
+.map-label-b { animation-delay: .55s; }
+.map-label-c { animation-delay: .8s; }
+.map-label-d { animation-delay: 1.05s; }
+
+.signal-strip i {
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: faldeo-line-grow 650ms cubic-bezier(.2, .7, .25, 1) forwards;
+}
+
+.signal-strip i:nth-of-type(1) { animation-delay: .55s; }
+.signal-strip i:nth-of-type(2) { animation-delay: .72s; }
+.signal-strip i:nth-of-type(3) { animation-delay: .89s; }
+.signal-strip i:nth-of-type(4) { animation-delay: 1.06s; }
+
+.friction-line .fault {
+  animation: faldeo-fault-pulse 3.4s ease-in-out infinite;
+}
+
+.approach-step:hover {
+  transform: translateX(8px);
+  border-top-color: #5b666c;
+}
+
+.approach-step:hover .step-mark {
+  transform: translate(4px, -4px);
+}
+
+.step-mark {
+  transition: transform 180ms ease-out;
+}
+
+.decision-row:hover .decision-arrow,
+.decision-row:hover .decision-output {
+  transform: translateX(6px);
+}
+
+.decision-arrow,
+.decision-output {
+  transition: transform 180ms ease-out;
+}
+
+.agent-node {
+  animation: faldeo-agent-border 4s ease-in-out infinite;
+}
+
+.diagram-link {
+  animation: faldeo-flow-signal 2.1s ease-in-out infinite;
+}
+
+.diagram-link:nth-of-type(2) {
+  animation-delay: .45s;
+}
+
+.governance-band span:nth-child(1) { animation: faldeo-control-signal 4.2s 0s ease-in-out infinite; }
+.governance-band span:nth-child(2) { animation: faldeo-control-signal 4.2s .55s ease-in-out infinite; }
+.governance-band span:nth-child(3) { animation: faldeo-control-signal 4.2s 1.1s ease-in-out infinite; }
+
+.evidence-item:hover,
+.context-list > div:hover,
+.evidence-record:hover {
+  transform: translateX(6px);
+}
+
+.evidence-record {
+  transition: transform 180ms ease-out, border-color 180ms ease-out;
+}
+
+.evidence-record:hover {
+  border-bottom-color: #9f9487;
+}
+
+@supports (animation-timeline: view()) {
+  .split-heading,
+  .engagement-bridge,
+  .approach-step,
+  .criterion-title,
+  .decision-row,
+  .agents-grid,
+  .evidence-heading,
+  .evidence-item,
+  .contexts-grid,
+  .evidence-record {
+    animation-name: faldeo-scroll-rise;
+    animation-duration: 1ms;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: entry 5% cover 28%;
+  }
+
+  .approach-step:nth-child(2),
+  .decision-row:nth-child(2),
+  .evidence-item:nth-child(2),
+  .evidence-record:nth-child(2) {
+    animation-range: entry 10% cover 32%;
+  }
+
+  .approach-step:nth-child(3),
+  .decision-row:nth-child(3),
+  .evidence-item:nth-child(3),
+  .evidence-record:nth-child(3) {
+    animation-range: entry 15% cover 36%;
+  }
+
+  .approach-step:nth-child(4),
+  .decision-row:nth-child(4) {
+    animation-range: entry 20% cover 40%;
+  }
+
+  .approach-step:nth-child(5) {
+    animation-range: entry 25% cover 44%;
+  }
+}
+
+@keyframes faldeo-hero-rise {
+  from { transform: translateY(14px); }
+  to { transform: translateY(0); }
+}
+
+@keyframes faldeo-contour-drift {
+  from { transform: translate3d(-5px, 2px, 0) scale(1); }
+  to { transform: translate3d(7px, -3px, 0) scale(1.015); }
+}
+
+@keyframes faldeo-route-draw {
+  from { stroke-dashoffset: 1450; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes faldeo-signal-pulse {
+  0%, 72%, 100% { transform: scale(1); }
+  82% { transform: scale(1.34); }
+  90% { transform: scale(.96); }
+}
+
+@keyframes faldeo-label-arrive {
+  from { transform: translateX(12px); }
+  to { transform: translateX(0); }
+}
+
+@keyframes faldeo-line-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes faldeo-fault-pulse {
+  0%, 70%, 100% { border-color: var(--copper); }
+  82% { border-color: #e9a278; }
+}
+
+@keyframes faldeo-agent-border {
+  0%, 65%, 100% { border-color: var(--ai); }
+  78% { border-color: #a4dbe5; }
+}
+
+@keyframes faldeo-flow-signal {
+  0%, 55%, 100% { color: var(--copper); }
+  70% { color: #f0b28a; }
+}
+
+@keyframes faldeo-control-signal {
+  0%, 70%, 100% { border-color: #536067; color: #b7c1c5; }
+  82% { border-color: var(--ai); color: #d8f0f4; }
+}
+
+@keyframes faldeo-scroll-rise {
+  from { transform: translateY(24px); }
+  to { transform: translateY(0); }
+}
+
 @media (max-width: 980px) {
   .evidence-page-hero-grid,
   .evidence-method-grid {
@@ -255,5 +504,48 @@
   .evidence-artifacts > div {
     display: grid;
     gap: .75rem;
+  }
+
+  .approach-step:hover,
+  .evidence-item:hover,
+  .context-list > div:hover,
+  .evidence-record:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: .01ms !important;
+  }
+
+  .route {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .contours,
+  .route-start,
+  .route-end,
+  .friction-point,
+  .decision-point,
+  .signal-point,
+  .hero-copy .eyebrow,
+  .hero-copy h1,
+  .hero-lead,
+  .hero-actions,
+  .map-label,
+  .approach-step,
+  .decision-row,
+  .agents-grid,
+  .evidence-item,
+  .contexts-grid,
+  .evidence-record {
+    transform: none !important;
   }
 }

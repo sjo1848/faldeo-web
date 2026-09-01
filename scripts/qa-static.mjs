@@ -105,12 +105,25 @@ if (evidenceHtml) {
   check('Evidencia separa claims de no-claims', evidenceHtml.includes('QUÉ PERMITE CONCLUIR') && evidenceHtml.includes('QUÉ NO DEMUESTRA'));
   check('Evidencia publica artefactos concretos', evidenceHtml.includes('ARTEFACTOS PÚBLICOS') && evidenceHtml.includes('Caso de ingeniería') && evidenceHtml.includes('Cierre de evidencia ACP 2.5'));
   check('Evidencia no simula clientes o ROI', evidenceHtml.includes('No demuestra adopción de clientes') && evidenceHtml.includes('No demuestra producción'));
+  check('Evidencia declara snapshots inmutables', evidenceHtml.includes('SNAPSHOT · 4df56a6217ca') && evidenceHtml.includes('SNAPSHOT · 91df4f49ee4b'));
   check('Evidencia sin scripts externos', !/<script\b[^>]*src="https?:\/\//i.test(evidenceHtml));
   check('Evidencia sin imágenes externas', !/<img\b[^>]*src="https?:\/\//i.test(evidenceHtml));
 
   const externalHrefs = [...evidenceHtml.matchAll(/href="(https?:\/\/[^"]+)"/gi)].map((match) => match[1]);
   const unapprovedExternalHrefs = externalHrefs.filter((href) => !href.startsWith('https://github.com/sjo1848/'));
   check('Links externos de evidencia limitados a repos públicos aprobados', externalHrefs.length >= 6 && unapprovedExternalHrefs.length === 0, unapprovedExternalHrefs.join(', '));
+
+  const mutableEvidenceHrefs = externalHrefs.filter((href) => /\/(?:blob|tree)\/main(?:\/|$)/i.test(href) || /^https:\/\/github\.com\/sjo1848\/[^/]+\/?$/i.test(href));
+  check('Evidencia no depende de main mutable', mutableEvidenceHrefs.length === 0, mutableEvidenceHrefs.join(', '));
+
+  const immutableSnapshotPattern = /^https:\/\/github\.com\/sjo1848\/[^/]+\/(?:blob|tree)\/[0-9a-f]{40}(?:\/|$)/i;
+  const unpinnedExternalHrefs = externalHrefs.filter((href) => !immutableSnapshotPattern.test(href));
+  check('Todos los artefactos externos están fijados a SHA', externalHrefs.length >= 6 && unpinnedExternalHrefs.length === 0, unpinnedExternalHrefs.join(', '));
+  check(
+    'Snapshots fuente declarados con SHA completo',
+    evidenceSource.includes("HMS_SNAPSHOT = '4df56a6217caab611f2f5fcbd98bde8386bb5629'") &&
+      evidenceSource.includes("ACP_SNAPSHOT = '91df4f49ee4b3e4e6e9f5808a25a08e1c5d5cfbe'")
+  );
 
   const externalAnchors = [...evidenceHtml.matchAll(/<a\b[^>]*href="https?:\/\/[^>]+>/gi)].map((match) => match[0]);
   const unsafeExternalAnchors = externalAnchors.filter((anchor) => !/target="_blank"/.test(anchor) || !/rel="noopener noreferrer"/.test(anchor));

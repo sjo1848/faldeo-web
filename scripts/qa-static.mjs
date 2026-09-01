@@ -10,7 +10,8 @@ const evidenceSource = readFileSync('src/pages/evidencia.astro', 'utf8');
 const css = [
   'src/styles/global.css',
   'src/styles/qa-fixes.css',
-  'src/styles/learn.css'
+  'src/styles/learn.css',
+  'src/styles/motion-r2.css'
 ].map((path) => readFileSync(path, 'utf8')).join('\n');
 
 const failures = [];

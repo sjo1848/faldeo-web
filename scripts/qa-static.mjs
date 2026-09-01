@@ -1,9 +1,12 @@
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const htmlPath = 'dist/index.html';
+const evidenceHtmlPath = 'dist/evidencia/index.html';
 const html = readFileSync(htmlPath, 'utf8');
+const evidenceHtml = existsSync(evidenceHtmlPath) ? readFileSync(evidenceHtmlPath, 'utf8') : '';
 const pageSource = readFileSync('src/pages/index.astro', 'utf8');
+const evidenceSource = readFileSync('src/pages/evidencia.astro', 'utf8');
 const css = [
   'src/styles/global.css',
   'src/styles/qa-fixes.css',
@@ -44,6 +47,7 @@ check('Gobierno de agentes visible', html.includes('REGLAS') && html.includes('A
 check('Oferta inicial visible', html.includes('PRIMERA INTERVENCIÓN') && html.includes('PRIMER ENTREGABLE') && html.includes('Piloto pequeño y medible'));
 check('Evidencia calibrada por entorno', html.includes('ENTORNO DE PRUEBA · FLUJO IMPLEMENTADO') && html.includes('INTERNO · CAPACIDAD TÉCNICA'));
 check('Hipótesis sectoriales explícitas', html.includes('HIPÓTESIS DE APLICACIÓN'));
+check('Home enlaza evidencia pública', html.includes('href="/evidencia/"') && html.includes('Abrir evidencia pública'));
 check(
   'Jerga pública crítica reducida',
   !/(\bworkflow\b|\bstaging\b|Service Binding|multi-tenant|Routing por tenant|\bPOLICY\b|\bHITL\b|\bAUDIT\b)/i.test(html)
@@ -94,9 +98,31 @@ const imgs = [...html.matchAll(/<img\b[^>]*>/g)].map((match) => match[0]);
 const imgsWithoutAlt = imgs.filter((img) => !/\balt="[^"]*"/.test(img));
 check('Todas las imágenes tienen alt', imgsWithoutAlt.length === 0, `sin alt: ${imgsWithoutAlt.length}`);
 
+check('Superficie pública de evidencia generada', Boolean(evidenceHtml));
+if (evidenceHtml) {
+  check('Evidencia privada no indexable', evidenceHtml.includes('name="robots" content="noindex, nofollow"'));
+  check('Evidencia tiene un único H1', count(/<h1\b/g, evidenceHtml) === 1, `encontrados: ${count(/<h1\b/g, evidenceHtml)}`);
+  check('Evidencia separa claims de no-claims', evidenceHtml.includes('QUÉ PERMITE CONCLUIR') && evidenceHtml.includes('QUÉ NO DEMUESTRA'));
+  check('Evidencia publica artefactos concretos', evidenceHtml.includes('ARTEFACTOS PÚBLICOS') && evidenceHtml.includes('Caso de ingeniería') && evidenceHtml.includes('Cierre de evidencia ACP 2.5'));
+  check('Evidencia no simula clientes o ROI', evidenceHtml.includes('No demuestra adopción de clientes') && evidenceHtml.includes('No demuestra producción'));
+  check('Evidencia sin scripts externos', !/<script\b[^>]*src="https?:\/\//i.test(evidenceHtml));
+  check('Evidencia sin imágenes externas', !/<img\b[^>]*src="https?:\/\//i.test(evidenceHtml));
+
+  const externalHrefs = [...evidenceHtml.matchAll(/href="(https?:\/\/[^"]+)"/gi)].map((match) => match[1]);
+  const unapprovedExternalHrefs = externalHrefs.filter((href) => !href.startsWith('https://github.com/sjo1848/'));
+  check('Links externos de evidencia limitados a repos públicos aprobados', externalHrefs.length >= 6 && unapprovedExternalHrefs.length === 0, unapprovedExternalHrefs.join(', '));
+
+  const externalAnchors = [...evidenceHtml.matchAll(/<a\b[^>]*href="https?:\/\/[^>]+>/gi)].map((match) => match[0]);
+  const unsafeExternalAnchors = externalAnchors.filter((anchor) => !/target="_blank"/.test(anchor) || !/rel="noopener noreferrer"/.test(anchor));
+  check('Links externos de evidencia endurecidos', externalAnchors.length > 0 && unsafeExternalAnchors.length === 0, `sin hardening: ${unsafeExternalAnchors.length}`);
+  check('Menú mobile de evidencia cierra al navegar', evidenceSource.includes('data-mobile-nav') && evidenceSource.includes("menu.removeAttribute('open')"));
+}
+
 const htmlBytes = statSync(htmlPath).size;
+const evidenceHtmlBytes = evidenceHtml ? statSync(evidenceHtmlPath).size : 0;
 const distBytes = dirSize('dist');
 check('Budget HTML < 80 KiB', htmlBytes < 80 * 1024, `${(htmlBytes / 1024).toFixed(1)} KiB`);
+check('Budget evidencia HTML < 80 KiB', evidenceHtmlBytes < 80 * 1024, `${(evidenceHtmlBytes / 1024).toFixed(1)} KiB`);
 check('Budget dist < 300 KiB', distBytes < 300 * 1024, `${(distBytes / 1024).toFixed(1)} KiB`);
 
 console.log('\nFALDEO WEB-05/08 — static QA');
@@ -104,6 +130,7 @@ for (const item of checks) {
   console.log(`${item.ok ? 'PASS' : 'FAIL'}  ${item.name}${item.detail ? ` (${item.detail})` : ''}`);
 }
 console.log(`\nHTML: ${(htmlBytes / 1024).toFixed(1)} KiB`);
+console.log(`Evidence HTML: ${(evidenceHtmlBytes / 1024).toFixed(1)} KiB`);
 console.log(`Dist total: ${(distBytes / 1024).toFixed(1)} KiB`);
 
 if (failures.length) {

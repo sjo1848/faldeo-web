@@ -3,7 +3,7 @@ const cloudflarePreview = process.env.CF_PAGES === '1' && !indexedRelease;
 
 const rawSiteUrl = import.meta.env.PUBLIC_SITE_URL?.trim() || '';
 const rawContactUrl = import.meta.env.PUBLIC_CONTACT_URL?.trim() || '';
-const contactLabel = import.meta.env.PUBLIC_CONTACT_LABEL?.trim() || 'Abrir canal de contacto';
+const contactLabel = import.meta.env.PUBLIC_CONTACT_LABEL?.trim() || 'Hablemos de tu operación';
 
 function normalizeSiteUrl(value: string): string | undefined {
   if (!value) return undefined;

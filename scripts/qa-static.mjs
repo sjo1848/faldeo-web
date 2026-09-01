@@ -66,6 +66,10 @@ check(
   pageSource.includes('Cómo empezamos') && pageSource.includes('href="#inicio-trabajo"')
 );
 check(
+  'Inicio de trabajo compensa header sticky',
+  /\.engagement-bridge\s*\{[\s\S]*?scroll-margin-top:\s*96px/.test(css)
+);
+check(
   'Contacto real no se simula en preview',
   pageSource.includes('!siteConfig.isCloudflarePreview') && pageSource.includes('siteConfig.contactUrl ?')
 );

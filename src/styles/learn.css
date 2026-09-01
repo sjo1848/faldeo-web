@@ -8,6 +8,7 @@
   gap: clamp(2rem, 6vw, 5rem);
   padding: 2.5rem 0;
   border-bottom: 1px solid var(--line-dark);
+  scroll-margin-top: 96px;
 }
 
 .engagement-bridge h3 {

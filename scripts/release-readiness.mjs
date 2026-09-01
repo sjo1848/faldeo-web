@@ -6,7 +6,7 @@ const publicRelease = process.env.PUBLIC_SITE_PUBLIC === 'true';
 const cloudflarePreview = process.env.CF_PAGES === '1' && !publicRelease;
 const siteUrl = process.env.PUBLIC_SITE_URL?.trim() || '';
 const contactUrl = process.env.PUBLIC_CONTACT_URL?.trim() || '';
-const contactLabel = process.env.PUBLIC_CONTACT_LABEL?.trim() || 'Abrir canal de contacto';
+const contactLabel = process.env.PUBLIC_CONTACT_LABEL?.trim() || 'Hablemos de tu operación';
 
 const failures = [];
 const checks = [];

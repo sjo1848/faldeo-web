@@ -3,15 +3,19 @@ import { join } from 'node:path';
 
 const htmlPath = 'dist/index.html';
 const evidenceHtmlPath = 'dist/evidencia/index.html';
+const mountainHtmlPath = 'dist/alta-montana/index.html';
 const html = readFileSync(htmlPath, 'utf8');
 const evidenceHtml = existsSync(evidenceHtmlPath) ? readFileSync(evidenceHtmlPath, 'utf8') : '';
+const mountainHtml = existsSync(mountainHtmlPath) ? readFileSync(mountainHtmlPath, 'utf8') : '';
 const pageSource = readFileSync('src/pages/index.astro', 'utf8');
 const evidenceSource = readFileSync('src/pages/evidencia.astro', 'utf8');
+const mountainSource = readFileSync('src/pages/alta-montana.astro', 'utf8');
 const css = [
   'src/styles/global.css',
   'src/styles/qa-fixes.css',
   'src/styles/learn.css',
-  'src/styles/motion-r2.css'
+  'src/styles/motion-r2.css',
+  'src/styles/commercial-authority.css'
 ].map((path) => readFileSync(path, 'utf8')).join('\n');
 
 const failures = [];
@@ -42,13 +46,17 @@ check('Skip link presente', html.includes('Saltar al contenido'));
 check('Main target presente', html.includes('id="contenido"'));
 check('Meta description presente', /<meta name="description" content="[^"]+"/.test(html));
 check('Noindex durante validación privada', html.includes('name="robots" content="noindex, nofollow"'));
-check('Headline locked', html.includes('Leemos tu operación.') && html.includes('Elegimos lo que realmente resuelve.'));
+check('Headline WEB-09 locked', html.includes('Operaciones complejas.') && html.includes('Tecnología con criterio.'));
+check('Descriptor comercial visible', html.includes('Software, datos y automatización para mejorar coordinación, trazabilidad y decisiones en operaciones reales.'));
+check('Origen territorial visible', html.includes('Uspallata') && html.includes('Mendoza'));
+check('Alta Montaña visible desde Home', html.includes('href="/alta-montana/"') && html.includes('Tecnología para coordinar operaciones en Alta Montaña.'));
+check('Capacidad demostrada antes que promesa', html.includes('CAPACIDAD DEMOSTRADA') && html.includes('No partimos de una presentación. Ya construimos y verificamos sistemas.'));
 check('Criterio IA locked', html.includes('No todo problema necesita IA.'));
 check('Gobierno de agentes visible', html.includes('REGLAS') && html.includes('APROBACIÓN HUMANA') && html.includes('AUDITORÍA'));
 check('Oferta inicial visible', html.includes('PRIMERA INTERVENCIÓN') && html.includes('PRIMER ENTREGABLE') && html.includes('Piloto pequeño y medible'));
 check('Evidencia calibrada por entorno', html.includes('ENTORNO DE PRUEBA · FLUJO IMPLEMENTADO') && html.includes('INTERNO · CAPACIDAD TÉCNICA'));
-check('Hipótesis sectoriales explícitas', html.includes('HIPÓTESIS DE APLICACIÓN'));
-check('Home enlaza evidencia pública', html.includes('href="/evidencia/"') && html.includes('Abrir evidencia pública'));
+check('Estados sectoriales calibrados', html.includes('INVESTIGACIÓN OPERATIVA') && html.includes('VALIDACIÓN ESPECÍFICA PENDIENTE'));
+check('Home enlaza evidencia pública', html.includes('href="/evidencia/"') && html.includes('Abrir evidencia'));
 check(
   'Jerga pública crítica reducida',
   !/(\bworkflow\b|\bstaging\b|Service Binding|multi-tenant|Routing por tenant|\bPOLICY\b|\bHITL\b|\bAUDIT\b)/i.test(html)
@@ -99,6 +107,21 @@ const imgs = [...html.matchAll(/<img\b[^>]*>/g)].map((match) => match[0]);
 const imgsWithoutAlt = imgs.filter((img) => !/\balt="[^"]*"/.test(img));
 check('Todas las imágenes tienen alt', imgsWithoutAlt.length === 0, `sin alt: ${imgsWithoutAlt.length}`);
 
+check('Landing Alta Montaña generada', Boolean(mountainHtml));
+if (mountainHtml) {
+  check('Alta Montaña privada no indexable', mountainHtml.includes('name="robots" content="noindex, nofollow"'));
+  check('Alta Montaña tiene un único H1', count(/<h1\b/g, mountainHtml) === 1, `encontrados: ${count(/<h1\b/g, mountainHtml)}`);
+  check('Alta Montaña explicita investigación', mountainHtml.includes('INVESTIGACIÓN 2026') && mountainHtml.includes('Investigación operativa'));
+  check('Alta Montaña no declara producto seleccionado', mountainHtml.includes('antes de definir cualquier producto') && mountainHtml.includes('No partimos de una solución cerrada') === false);
+  check('Alta Montaña integra antes de reemplazar', mountainHtml.includes('Integrar antes de reemplazar'));
+  check('Alta Montaña calibra supuestos', mountainHtml.includes('LO QUE NO ESTAMOS ASUMIENDO') && mountainHtml.includes('No asumimos demanda comercial'));
+  check('Alta Montaña preserva sistemas públicos', mountainHtml.includes('No buscamos reemplazar sistemas gubernamentales'));
+  check('Alta Montaña sin producto especulativo nominal', !/(MuleOps|TraceOps|Mountain Operations Platform)/i.test(mountainHtml));
+  check('Alta Montaña sin scripts externos', !/<script\b[^>]*src="https?:\/\//i.test(mountainHtml));
+  check('Alta Montaña sin imágenes externas', !/<img\b[^>]*src="https?:\/\//i.test(mountainHtml));
+  check('Menú mobile Alta Montaña cierra al navegar', mountainSource.includes('data-mobile-nav') && mountainSource.includes("menu.removeAttribute('open')"));
+}
+
 check('Superficie pública de evidencia generada', Boolean(evidenceHtml));
 if (evidenceHtml) {
   check('Evidencia privada no indexable', evidenceHtml.includes('name="robots" content="noindex, nofollow"'));
@@ -134,17 +157,20 @@ if (evidenceHtml) {
 
 const htmlBytes = statSync(htmlPath).size;
 const evidenceHtmlBytes = evidenceHtml ? statSync(evidenceHtmlPath).size : 0;
+const mountainHtmlBytes = mountainHtml ? statSync(mountainHtmlPath).size : 0;
 const distBytes = dirSize('dist');
-check('Budget HTML < 80 KiB', htmlBytes < 80 * 1024, `${(htmlBytes / 1024).toFixed(1)} KiB`);
+check('Budget Home HTML < 90 KiB', htmlBytes < 90 * 1024, `${(htmlBytes / 1024).toFixed(1)} KiB`);
 check('Budget evidencia HTML < 80 KiB', evidenceHtmlBytes < 80 * 1024, `${(evidenceHtmlBytes / 1024).toFixed(1)} KiB`);
-check('Budget dist < 300 KiB', distBytes < 300 * 1024, `${(distBytes / 1024).toFixed(1)} KiB`);
+check('Budget Alta Montaña HTML < 80 KiB', mountainHtmlBytes < 80 * 1024, `${(mountainHtmlBytes / 1024).toFixed(1)} KiB`);
+check('Budget dist < 420 KiB', distBytes < 420 * 1024, `${(distBytes / 1024).toFixed(1)} KiB`);
 
-console.log('\nFALDEO WEB-05/08 — static QA');
+console.log('\nFALDEO WEB-09 — static QA');
 for (const item of checks) {
   console.log(`${item.ok ? 'PASS' : 'FAIL'}  ${item.name}${item.detail ? ` (${item.detail})` : ''}`);
 }
-console.log(`\nHTML: ${(htmlBytes / 1024).toFixed(1)} KiB`);
+console.log(`\nHome HTML: ${(htmlBytes / 1024).toFixed(1)} KiB`);
 console.log(`Evidence HTML: ${(evidenceHtmlBytes / 1024).toFixed(1)} KiB`);
+console.log(`Alta Montaña HTML: ${(mountainHtmlBytes / 1024).toFixed(1)} KiB`);
 console.log(`Dist total: ${(distBytes / 1024).toFixed(1)} KiB`);
 
 if (failures.length) {

@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+<BaseLayout
+  title="FALDEO Alta Montaña — Tecnología para coordinar operaciones"
+  description="Investigación de FALDEO sobre coordinación, trazabilidad y requerimientos operativos en Aconcagua y Alta Montaña."
+>
+  <header class="site-header" aria-label="Cabecera principal">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="FALDEO, inicio">
+        <img src="/brand/faldeo-lockup-horizontal-dark.svg" alt="FALDEO — Soluciones tecnológicas para operaciones reales" width="176" height="64" />
+      </a>
+
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        <a href="/">FALDEO</a>
+        <a href="#investigacion">Investigación</a>
+        <a href="#alcance">Qué estamos mirando</a>
+        <a href="/evidencia/">Evidencia</a>
+      </nav>
+
+      {siteConfig.contactUrl ? (
+        <a
+          class="button button-small desktop-cta"
+          href={siteConfig.contactUrl}
+          rel={siteConfig.contactUrl.startsWith('https:') ? 'noopener noreferrer' : undefined}
+        >
+          {siteConfig.contactLabel}
+        </a>
+      ) : (
+        <a class="button button-small desktop-cta" href="#participar">Sobre la investigación</a>
+      )}
+
+      <details class="mobile-nav" data-mobile-nav>
+        <summary>Menú</summary>
+        <nav aria-label="Navegación móvil">
+          <a href="/">FALDEO</a>
+          <a href="#investigacion">Investigación</a>
+          <a href="#alcance">Qué estamos mirando</a>
+          <a href="/evidencia/">Evidencia</a>
+          {siteConfig.contactUrl && <a href={siteConfig.contactUrl}>Contacto</a>}
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="mountain-hero dark-section" id="inicio">
+      <div class="shell">
+        <a class="mountain-back" href="/">← Volver a FALDEO</a>
+        <div class="mountain-hero-grid">
+          <div>
+            <p class="eyebrow">FALDEO · ALTA MONTAÑA · INVESTIGACIÓN 2026</p>
+            <h1>Tecnología para coordinar operaciones en Alta Montaña.</h1>
+            <p class="hero-lead">Estamos investigando cómo se coordinan en la práctica las operaciones alrededor de Aconcagua para entender dónde la tecnología puede simplificar gestión, trazabilidad y cumplimiento sin sumar más carga administrativa.</p>
+          </div>
+
+          <aside class="research-status" aria-label="Estado de la investigación">
+            <small>ESTADO ACTUAL</small>
+            <strong>Investigación operativa</strong>
+            <p>Estamos validando procesos, herramientas existentes, responsabilidades y puntos de coordinación antes de definir cualquier producto.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="mountain-section light-section" id="investigacion">
+      <div class="shell mountain-section-grid">
+        <div>
+          <p class="eyebrow eyebrow-dark">POR QUÉ ESTAMOS MIRANDO ACÁ</p>
+          <h2>La complejidad no está en una sola tarea. Está en coordinar el conjunto.</h2>
+        </div>
+        <div class="mountain-section-copy">
+          <p>Una expedición o servicio de Alta Montaña puede conectar consultas, reservas, pasajeros, hotelería, traslados, Penitentes, campamentos, cargas, documentación, personal y decisiones que ocurren en distintos momentos y lugares.</p>
+          <p>Los requerimientos operativos y de concesión agregan además necesidades de registro, seguimiento y evidencia. La pregunta de FALDEO no es “qué sistema podemos vender”, sino <strong>qué parte de esa coordinación vale realmente la pena mejorar y qué herramienta existente o nueva tiene sentido usar.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mountain-section dark-section" id="alcance">
+      <div class="shell">
+        <div class="capabilities-heading">
+          <div>
+            <p class="eyebrow">QUÉ ESTAMOS MIRANDO</p>
+            <h2>El recorrido operativo de punta a punta.</h2>
+          </div>
+          <p>No asumimos que estas áreas tengan un problema. Las observamos para entender cómo se conectan y dónde existe complejidad real.</p>
+        </div>
+
+        <div class="mountain-scope">
+          <article>
+            <small>01 · COMERCIAL → OPERACIÓN</small>
+            <h3>De una consulta a una operación coordinada</h3>
+            <p>Cómo pasan reservas, pasajeros, servicios contratados, cambios y requisitos desde la atención inicial a quienes ejecutan la operación.</p>
+          </article>
+          <article>
+            <small>02 · LOGÍSTICA</small>
+            <h3>Movimientos entre Mendoza, Uspallata, Penitentes y montaña</h3>
+            <p>Traslados, cargas, campamentos, recursos y coordinación entre ubicaciones que pueden depender de información compartida.</p>
+          </article>
+          <article>
+            <small>03 · TRAZABILIDAD</small>
+            <h3>Saber qué ocurrió y qué falta</h3>
+            <p>Registros, estados, responsables y evidencia necesaria para reconstruir una operación sin depender únicamente de memoria o mensajes dispersos.</p>
+          </article>
+          <article>
+            <small>04 · REQUERIMIENTOS</small>
+            <h3>Cumplir sin duplicar trabajo</h3>
+            <p>Cómo los requisitos operativos, ambientales, de seguridad y de concesión se traducen a tareas cotidianas y qué información debe quedar disponible.</p>
+          </article>
+          <article>
+            <small>05 · CAMPO</small>
+            <h3>Información útil donde ocurre el trabajo</h3>
+            <p>Qué necesita seguir funcionando cuando la conectividad es limitada y cómo reconciliar luego el estado de campo con los sistemas centrales.</p>
+          </article>
+          <article>
+            <small>06 · HERRAMIENTAS EXISTENTES</small>
+            <h3>Integrar antes de reemplazar</h3>
+            <p>Qué resuelven ya los sistemas actuales y dónde una integración, configuración o automatización puede ser mejor decisión que construir software nuevo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="mountain-section light-section" aria-labelledby="principios-title">
+      <div class="shell mountain-section-grid">
+        <div>
+          <p class="eyebrow eyebrow-dark">LO QUE NO ESTAMOS ASUMIENDO</p>
+          <h2 id="principios-title">La investigación también debe poder concluir que no hace falta construir.</h2>
+        </div>
+        <div class="non-assumptions">
+          <div><span>01</span><strong>No asumimos que los operadores trabajen de forma manual o desordenada.</strong></div>
+          <div><span>02</span><strong>No asumimos que una plataforma nueva sea mejor que las herramientas actuales.</strong></div>
+          <div><span>03</span><strong>No asumimos que IA sea necesaria para resolver el problema.</strong></div>
+          <div><span>04</span><strong>No asumimos demanda comercial hasta hablar con quienes operan y deciden.</strong></div>
+          <div><span>05</span><strong>No buscamos reemplazar sistemas gubernamentales: cualquier solución privada tendría que convivir e integrarse con ellos.</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mountain-section dark-section" id="participar">
+      <div class="shell mountain-callout-grid">
+        <div>
+          <p class="eyebrow">PARTICIPAR EN LA INVESTIGACIÓN</p>
+          <h2>La evidencia más importante viene de quienes hacen el trabajo.</h2>
+        </div>
+        <div class="mountain-callout-copy">
+          <p>Estamos conversando con personas vinculadas a reservas, logística, operaciones, campamentos, transporte y coordinación para entender procesos reales y qué cosas ya funcionan bien.</p>
+          <p>Las conversaciones pueden mantenerse enfocadas en procesos y herramientas, sin información confidencial ni datos comerciales internos.</p>
+          {siteConfig.contactUrl ? (
+            <div class="mountain-callout-actions">
+              <a
+                class="button"
+                href={siteConfig.contactUrl}
+                rel={siteConfig.contactUrl.startsWith('https:') ? 'noopener noreferrer' : undefined}
+              >
+                {siteConfig.contactLabel}
+              </a>
+            </div>
+          ) : (
+            <p><strong>El canal público de contacto se habilitará con la publicación final del sitio.</strong></p>
+          )}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer dark-section">
+    <div class="shell footer-inner">
+      <img src="/brand/faldeo-lockup-horizontal-dark.svg" alt="FALDEO" width="170" height="62" />
+      <p>Operaciones complejas. Tecnología con criterio.</p>
+      {!siteConfig.isPublicRelease && <span>CANDIDATA PRIVADA · PUBLICACIÓN PENDIENTE</span>}
+    </div>
+  </footer>
+
+  <script is:inline>
+    document.querySelectorAll('[data-mobile-nav]').forEach((menu) => {
+      menu.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', () => {
+          menu.removeAttribute('open');
+        });
+      });
+    });
+  </script>
+</BaseLayout>

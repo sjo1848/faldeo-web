@@ -1,0 +1,223 @@
+/* WEB-09 — Commercial Authority + Alta Montaña
+   Extends the locked topographic system without replacing it. */
+
+.authority-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.authority-strip > div {
+  min-height: 118px;
+  display: grid;
+  align-content: center;
+  gap: .35rem;
+  padding: 1.35rem 1.5rem;
+  border-right: 1px solid var(--line-dark);
+}
+
+.authority-strip > div:last-child { border-right: 0; }
+.authority-strip small,
+.territory-facts small,
+.capability-card small,
+.mountain-scope small,
+.research-status small {
+  color: #929da3;
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+.authority-strip strong { font-size: 1.05rem; }
+.authority-strip span { color: #aeb5b7; font-size: .88rem; }
+
+.territory {
+  padding-block: var(--section);
+}
+
+.territory-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(360px, 1.2fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: start;
+}
+
+.territory-copy h2 { max-width: 11ch; }
+.territory-copy > p:last-of-type {
+  max-width: 590px;
+  color: #555d60;
+  font-size: 1.08rem;
+}
+.territory .text-link { color: var(--ink); }
+.territory .text-link:hover { color: var(--copper); }
+
+.territory-facts {
+  border-top: 1px solid #afa89d;
+}
+.territory-facts small { color: #596063; }
+
+.territory-facts > div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid #c5beb2;
+}
+.territory-facts strong { font-size: 1rem; }
+.territory-facts p { margin: .35rem 0 0; color: #596063; }
+
+.capabilities {
+  padding-block: var(--section);
+}
+
+.capabilities-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .6fr);
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+.capabilities-heading h2 { max-width: 12ch; margin-bottom: 0; }
+.capabilities-heading > p { color: #aeb5b7; }
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line-dark);
+  border-left: 1px solid var(--line-dark);
+}
+.capability-card {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.7rem;
+  border-right: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+.capability-card .capability-index {
+  color: #c98053;
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-size: .74rem;
+  margin-bottom: 2.2rem;
+}
+.capability-card h3 { max-width: 17ch; margin-bottom: 1rem; }
+.capability-card p { color: #aeb5b7; }
+.capability-card .capability-status {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-dark);
+  color: #9fa8ab;
+}
+
+.mountain-callout {
+  padding-block: var(--section);
+  border-top: 1px solid var(--line-dark);
+}
+.mountain-callout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: center;
+}
+.mountain-callout h2 { max-width: 12ch; }
+.mountain-callout-copy { color: #b5bbbd; font-size: 1.05rem; }
+.mountain-callout-copy strong { color: var(--bone); }
+.mountain-callout-actions { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 1.6rem; }
+
+/* Alta Montaña landing */
+.mountain-hero {
+  padding-block: clamp(5rem, 10vw, 9rem);
+  border-bottom: 1px solid var(--line-dark);
+}
+.mountain-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, .7fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: end;
+}
+.mountain-hero h1 { max-width: 11ch; }
+.mountain-hero .hero-lead { max-width: 720px; }
+.research-status {
+  display: grid;
+  gap: .8rem;
+  padding: 1.4rem;
+  border: 1px solid var(--line-dark);
+}
+.research-status strong { font-size: 1.15rem; }
+.research-status p { margin: 0; color: #aeb5b7; }
+
+.mountain-section { padding-block: var(--section); }
+.mountain-section-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, .7fr) minmax(0, 1.3fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+.mountain-section h2 { max-width: 11ch; }
+.mountain-section-copy { max-width: 760px; color: #555d60; font-size: 1.05rem; }
+.dark-section .mountain-section-copy { color: #b0b7b9; }
+
+.mountain-scope {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid #afa89d;
+  border-left: 1px solid #afa89d;
+}
+.dark-section .mountain-scope { border-color: var(--line-dark); }
+.mountain-scope > article {
+  min-height: 220px;
+  padding: 1.5rem;
+  border-right: 1px solid #afa89d;
+  border-bottom: 1px solid #afa89d;
+}
+.dark-section .mountain-scope > article { border-color: var(--line-dark); }
+.mountain-scope h3 { margin: 1.25rem 0 .75rem; }
+.mountain-scope p { margin: 0; color: #596063; }
+.dark-section .mountain-scope p { color: #adb5b7; }
+
+.non-assumptions {
+  border-top: 1px solid #afa89d;
+}
+.non-assumptions > div {
+  display: grid;
+  grid-template-columns: 55px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid #c5beb2;
+}
+.non-assumptions span {
+  color: #93532f;
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-size: .72rem;
+}
+.non-assumptions strong { font-size: 1rem; }
+
+.mountain-back {
+  display: inline-flex;
+  margin-bottom: 2rem;
+  color: var(--bone-2);
+  font-weight: 650;
+  text-decoration: none;
+}
+.mountain-back:hover { color: var(--copper); }
+
+@media (max-width: 900px) {
+  .authority-strip,
+  .capability-grid { grid-template-columns: 1fr; }
+  .authority-strip > div { border-right: 0; border-bottom: 1px solid var(--line-dark); }
+  .authority-strip > div:last-child { border-bottom: 0; }
+  .territory-grid,
+  .capabilities-heading,
+  .mountain-callout-grid,
+  .mountain-hero-grid,
+  .mountain-section-grid { grid-template-columns: 1fr; }
+  .capability-grid { border-left: 0; }
+  .capability-card { min-height: 0; border-left: 1px solid var(--line-dark); }
+}
+
+@media (max-width: 620px) {
+  .territory-facts > div { grid-template-columns: 1fr; gap: .45rem; }
+  .mountain-scope { grid-template-columns: 1fr; border-left: 0; }
+  .mountain-scope > article { min-height: 0; border-left: 1px solid #afa89d; }
+  .dark-section .mountain-scope > article { border-left-color: var(--line-dark); }
+}

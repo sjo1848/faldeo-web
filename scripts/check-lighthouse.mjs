@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 
 const configs = [
   {
-    name: 'mobile',
+    name: 'Home mobile',
     paths: [
       'qa/lighthouse-mobile-1.json',
       'qa/lighthouse-mobile-2.json',
@@ -11,8 +11,18 @@ const configs = [
     thresholds: { performance: 0.9, accessibility: 1, 'best-practices': 1 }
   },
   {
-    name: 'desktop',
+    name: 'Home desktop',
     paths: ['qa/lighthouse-desktop.json'],
+    thresholds: { performance: 0.95, accessibility: 1, 'best-practices': 1 }
+  },
+  {
+    name: 'Alta Montaña mobile',
+    paths: ['qa/lighthouse-alta-mobile.json'],
+    thresholds: { performance: 0.9, accessibility: 1, 'best-practices': 1 }
+  },
+  {
+    name: 'Alta Montaña desktop',
+    paths: ['qa/lighthouse-alta-desktop.json'],
     thresholds: { performance: 0.95, accessibility: 1, 'best-practices': 1 }
   }
 ];
@@ -26,7 +36,7 @@ function median(values) {
 
 for (const config of configs) {
   const reports = config.paths.map((path) => JSON.parse(readFileSync(path, 'utf8')));
-  console.log(`\nFALDEO WEB-05 — Lighthouse ${config.name}`);
+  console.log(`\nFALDEO WEB-09 — Lighthouse ${config.name}`);
 
   for (const [category, threshold] of Object.entries(config.thresholds)) {
     const scores = reports.map((report) => report.categories?.[category]?.score);

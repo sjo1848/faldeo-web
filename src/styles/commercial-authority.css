@@ -55,6 +55,7 @@
 .territory-facts {
   border-top: 1px solid #afa89d;
 }
+.territory-facts small { color: #596063; }
 
 .territory-facts > div {
   display: grid;
@@ -95,7 +96,7 @@
   border-bottom: 1px solid var(--line-dark);
 }
 .capability-card .capability-index {
-  color: var(--copper);
+  color: #c98053;
   font-family: "IBM Plex Mono", Consolas, monospace;
   font-size: .74rem;
   margin-bottom: 2.2rem;

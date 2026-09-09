@@ -49,6 +49,8 @@
   color: #555d60;
   font-size: 1.08rem;
 }
+.territory .text-link { color: var(--ink); }
+.territory .text-link:hover { color: var(--copper); }
 
 .territory-facts {
   border-top: 1px solid #afa89d;
@@ -173,14 +175,14 @@
 .dark-section .mountain-scope p { color: #adb5b7; }
 
 .non-assumptions {
-  border-top: 1px solid var(--line-dark);
+  border-top: 1px solid #afa89d;
 }
 .non-assumptions > div {
   display: grid;
   grid-template-columns: 55px minmax(0, 1fr);
   gap: 1rem;
   padding: 1.3rem 0;
-  border-bottom: 1px solid var(--line-dark);
+  border-bottom: 1px solid #c5beb2;
 }
 .non-assumptions span {
   color: var(--copper);

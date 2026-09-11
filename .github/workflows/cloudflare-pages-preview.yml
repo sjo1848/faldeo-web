@@ -60,7 +60,7 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           command: >-
             pages deploy dist
-            --project-name=faldeo-web
+            --project-name=faldeo
             --branch=web-07-preview
             --commit-hash=${{ github.sha }}
             --commit-dirty=false

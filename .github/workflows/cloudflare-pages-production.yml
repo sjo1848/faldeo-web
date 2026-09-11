@@ -85,7 +85,7 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           command: >-
             pages deploy dist
-            --project-name=faldeo-web
+            --project-name=faldeo
             --branch=main
             --commit-hash=${{ github.sha }}
             --commit-message="Manual indexed production release"
